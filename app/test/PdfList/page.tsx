@@ -29,6 +29,54 @@ const sampleResources = [
       { name: "Mechanics" },
       { name: "Thermodynamics" }
     ]
+  },
+  {
+    id: 2,
+    title: "Physics Fundamentals",
+    description: "An introduction to mechanics and thermodynamics. Explore the laws of motion through interactive diagrams and exercises.",
+    pdfUrl:  "https://www.cte.iup.edu/cte/Resources/PDF_TestPage.pdf",//"https://www.africau.edu/images/default/sample.pdf",
+    grade: "Grade 10",
+    subject: "Physics",
+    worksheetSkills: [
+      { name: "Mechanics" },
+      { name: "Thermodynamics" }
+    ]
+  },
+  {
+    id: 2,
+    title: "Physics Fundamentals",
+    description: "An introduction to mechanics and thermodynamics. Explore the laws of motion through interactive diagrams and exercises.",
+    pdfUrl:  "https://www.cte.iup.edu/cte/Resources/PDF_TestPage.pdf",//"https://www.africau.edu/images/default/sample.pdf",
+    grade: "Grade 10",
+    subject: "Physics",
+    worksheetSkills: [
+      { name: "Mechanics" },
+      { name: "Thermodynamics" }
+    ]
+  },
+  {
+    id: 2,
+    title: "Physics Fundamentals",
+    description: "An introduction to mechanics and thermodynamics. Explore the laws of motion through interactive diagrams and exercises.",
+    pdfUrl:  "https://www.cte.iup.edu/cte/Resources/PDF_TestPage.pdf",//"https://www.africau.edu/images/default/sample.pdf",
+    grade: "Grade 10",
+    subject: "Physics",
+    worksheetSkills: [
+      { name: "Mechanics" },
+      { name: "Thermodynamics" }
+    ]
+  },
+  {
+    id: 2,
+    title: "Physics Fundamentals",
+    description: "An introduction to mechanics and thermodynamics. Explore the laws of motion through interactive diagrams and exercises.",
+    pdfUrl:  "https://www.cte.iup.edu/cte/Resources/PDF_TestPage.pdf",//"https://www.africau.edu/images/default/sample.pdf",
+    grade: "Grade 10",
+    subject: "Physics",
+    worksheetSkills: [
+      { name: "Mechanics" },
+      { name: "Thermodynamics" }
+    ]
   }
 ];
 
@@ -46,7 +94,7 @@ export default function ResourceGallery() {
         </header>
 
         {/* Grid layout to display the reusable components */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <div className="flex flex-wrap gap-4">
           {sampleResources.map((resource) => (
             <PdfCard 
               key={resource.id} 

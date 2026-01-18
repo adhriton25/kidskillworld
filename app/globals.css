@@ -3,6 +3,12 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --sky-blue: #3ba9ff;
+  --sunshine-yellow: #ffd93d;
+  --leaf-green: #4caf50;
+  --coral-orange: #ff7a59;
+  --grape-purple: #8e59ff;
+  --bubblegum-pink: #ff6fb5;
 }
 
 @theme inline {
