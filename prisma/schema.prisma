@@ -1,76 +1,85 @@
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+previewFeatures = ["driverAdapters"]
 }
 
-//
+// -----------------------------------------------------------------------------
 // 1. Grade
-//
+// -----------------------------------------------------------------------------
 model Grade {
-  id        Int       @id @default(autoincrement())
-  name      String    @unique
-  skills    Skill[]
+  id         Int         @id @default(autoincrement())
+  name       String      @unique // e.g., "Grade 1", "K", "Pre-K"
+  skills     Skill[]
   worksheets Worksheet[]
+
+  @@index([name])
 }
 
-//
+// -----------------------------------------------------------------------------
 // 2. Subject
-//
+// -----------------------------------------------------------------------------
 model Subject {
-  id        Int       @id @default(autoincrement())
-  name      String    @unique
-  skills    Skill[]
+  id         Int         @id @default(autoincrement())
+  name       String      @unique // e.g., "Math", "Science"
+  skills     Skill[]
   worksheets Worksheet[]
+
+  @@index([name])
 }
 
-//
-// 3. Skill (belongs to Grade + Subject)
-//
+// -----------------------------------------------------------------------------
+// 3. Skill (Categorized by Subject and Grade)
+// -----------------------------------------------------------------------------
 model Skill {
-  id               Int                @id @default(autoincrement())
-  name             String             @unique
-  description      String?
-  worksheetSkills  WorksheetSkill[]   // ← REQUIRED back relation
-  topics           Topic[]
-  gradeId          Int
-  subjectId        Int
-  grade            Grade              @relation(fields: [gradeId], references: [id])
-  subject          Subject            @relation(fields: [subjectId], references: [id])
+  id              Int              @id @default(autoincrement())
+  name            String           @unique
+  description     String?
+  gradeId         Int
+  subjectId       Int
+  
+  grade           Grade            @relation(fields: [gradeId], references: [id])
+  subject         Subject          @relation(fields: [subjectId], references: [id])
+  
+  topics          Topic[]
+  worksheetSkills WorksheetSkill[]
+
+  @@index([gradeId, subjectId])
 }
 
-
-//
-// 4. Topic (belongs to Skill)
-//
+// -----------------------------------------------------------------------------
+// 4. Topic (Belongs to a specific Skill)
+// -----------------------------------------------------------------------------
 model Topic {
-  id        Int       @id @default(autoincrement())
-  name      String
-  skillId   Int
+  id      Int             @id @default(autoincrement())
+  name    String
+  skillId Int
+  
+  skill   Skill           @relation(fields: [skillId], references: [id])
+  papers  PracticePaper[]
 
-  skill     Skill     @relation(fields: [skillId], references: [id])
-  papers    PracticePaper[]
-
-  @@unique([name, skillId]) // same topic name allowed under different skills
+  @@unique([name, skillId])
 }
 
-//
-// 5. Practice Paper (PDFs)
-//
+// -----------------------------------------------------------------------------
+// 5. Practice Paper (Individual PDF files within a Topic)
+// -----------------------------------------------------------------------------
 model PracticePaper {
-  id        Int       @id @default(autoincrement())
-  title     String
-  pdfUrl    String
-  topicId   Int
-
-  topic     Topic     @relation(fields: [topicId], references: [id])
+  id      Int    @id @default(autoincrement())
+  title   String
+  pdfUrl  String
+  topicId Int
+  
+  topic   Topic  @relation(fields: [topicId], references: [id])
 }
 
-//
-// 6. Existing Worksheet System (kept intact)
-//
+// -----------------------------------------------------------------------------
+// 6. Worksheet (The main Resource Entity)
+// -----------------------------------------------------------------------------
 model Worksheet {
   id              Int              @id @default(autoincrement())
   title           String
@@ -78,25 +87,27 @@ model Worksheet {
   pdfUrl          String
   gradeId         Int
   subjectId       Int
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
 
   grade           Grade            @relation(fields: [gradeId], references: [id])
   subject         Subject          @relation(fields: [subjectId], references: [id])
-
   worksheetSkills WorksheetSkill[]
-  createdAt       DateTime         @default(now())
-  updatedAt       DateTime         @updatedAt
+
+  @@index([gradeId])
+  @@index([subjectId])
 }
 
-//
-// 7. Many-to-Many between Worksheet and Skill
-//
+// -----------------------------------------------------------------------------
+// 7. WorksheetSkill (Join Table for Many-to-Many relationship)
+// -----------------------------------------------------------------------------
 model WorksheetSkill {
-  id           Int        @id @default(autoincrement())
-  worksheetId  Int
-  skillId      Int
+  id          Int       @id @default(autoincrement())
+  worksheetId Int
+  skillId     Int
 
-  worksheet    Worksheet  @relation(fields: [worksheetId], references: [id])
-  skill        Skill      @relation(fields: [skillId], references: [id])
+  worksheet   Worksheet @relation(fields: [worksheetId], references: [id])
+  skill       Skill     @relation(fields: [skillId], references: [id])
 
   @@unique([worksheetId, skillId])
 }

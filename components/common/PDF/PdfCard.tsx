@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { ChevronRight } from 'lucide-react';
 import { PdfModel } from './PdfModel';
 
-interface PdfCardProps {
+export interface PdfCardProps {
   id: number;
   title: string;
   description: string;
