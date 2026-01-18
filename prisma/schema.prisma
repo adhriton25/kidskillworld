@@ -1,51 +1,102 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+datasource db {
+  provider = "postgresql"
+}
 
 generator client {
   provider = "prisma-client-js"
 }
 
-datasource db {
-  provider = "postgresql"
-}
-
-model User {
-  id           String   @id @default(cuid())
-  email        String   @unique
-  passwordHash String
-  isSubscribed Boolean  @default(false)
-  createdAt    DateTime @default(now())
-}
-
+//
+// 1. Grade
+//
 model Grade {
-  id       String    @id @default(cuid())
-  name     String
-  subjects Subject[]
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  skills    Skill[]
+  worksheets Worksheet[]
 }
 
+//
+// 2. Subject
+//
 model Subject {
-  id       String   @id @default(cuid())
-  name     String
-  gradeId  String
-  grade    Grade    @relation(fields: [gradeId], references: [id])
-  topics   Topic[]
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  skills    Skill[]
+  worksheets Worksheet[]
 }
 
+//
+// 3. Skill (belongs to Grade + Subject)
+//
+model Skill {
+  id               Int                @id @default(autoincrement())
+  name             String             @unique
+  description      String?
+  worksheetSkills  WorksheetSkill[]   // ← REQUIRED back relation
+  topics           Topic[]
+  gradeId          Int
+  subjectId        Int
+  grade            Grade              @relation(fields: [gradeId], references: [id])
+  subject          Subject            @relation(fields: [subjectId], references: [id])
+}
+
+
+//
+// 4. Topic (belongs to Skill)
+//
 model Topic {
-  id        String   @id @default(cuid())
+  id        Int       @id @default(autoincrement())
   name      String
-  subjectId String
-  subject   Subject  @relation(fields: [subjectId], references: [id])
-  papers    Paper[]
+  skillId   Int
+
+  skill     Skill     @relation(fields: [skillId], references: [id])
+  papers    PracticePaper[]
+
+  @@unique([name, skillId]) // same topic name allowed under different skills
 }
 
-model Paper {
-  id       String   @id @default(cuid())
-  title    String
-  content  Json
-  topicId  String
-  topic    Topic    @relation(fields: [topicId], references: [id])
+//
+// 5. Practice Paper (PDFs)
+//
+model PracticePaper {
+  id        Int       @id @default(autoincrement())
+  title     String
+  pdfUrl    String
+  topicId   Int
+
+  topic     Topic     @relation(fields: [topicId], references: [id])
+}
+
+//
+// 6. Existing Worksheet System (kept intact)
+//
+model Worksheet {
+  id              Int              @id @default(autoincrement())
+  title           String
+  description     String
+  pdfUrl          String
+  gradeId         Int
+  subjectId       Int
+
+  grade           Grade            @relation(fields: [gradeId], references: [id])
+  subject         Subject          @relation(fields: [subjectId], references: [id])
+
+  worksheetSkills WorksheetSkill[]
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+}
+
+//
+// 7. Many-to-Many between Worksheet and Skill
+//
+model WorksheetSkill {
+  id           Int        @id @default(autoincrement())
+  worksheetId  Int
+  skillId      Int
+
+  worksheet    Worksheet  @relation(fields: [worksheetId], references: [id])
+  skill        Skill      @relation(fields: [skillId], references: [id])
+
+  @@unique([worksheetId, skillId])
 }
