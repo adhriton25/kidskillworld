@@ -1,7 +1,7 @@
+import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import "./globals.css";
-import { SubjectTabs } from "@/components/layout/SubjectTabs";
+import { SubjectTabsWrapper } from "@/components/layout/SubjectTabsWrapper";
 
 export const metadata = {
   title: "ABC Learning",
@@ -17,10 +17,12 @@ export default function RootLayout({
     <html lang="en">
       <body className="bg-gray-50">
         <Header />
-        <div className="max-w-7xl mx-auto mt-3 px-4">
-          <SubjectTabs />
-        </div>
+
+        {/* Client component handles pathname logic */}
+        <SubjectTabsWrapper />
+
         <main className="pt-4">{children}</main>
+
         <Footer />
       </body>
     </html>

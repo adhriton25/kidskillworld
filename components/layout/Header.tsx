@@ -5,7 +5,7 @@ import { Menu, Search, User } from "lucide-react";
 import { AppIcon } from "./AppIcon";
 import { MobileMenu } from "./MobileMenu";
 import { HEADER_TABS } from "@/Constant/header-tab";
-import Link from "next/link";
+import { NavTab } from "./NavTab";
 
 export const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -39,13 +39,12 @@ export const Header = () => {
           {/* Center: Tab Menu (desktop only) */}
           <nav className="hidden sm:flex gap-6">
             {HEADER_TABS.map((tab) => (
-              <Link
+              <NavTab
                 key={tab.id}
+                label={tab.label}
                 href={tab.href}
-                className="text-white font-semibold text-lg hover:text-yellow-300 cursor-pointer"
-              >
-                {tab.label}
-              </Link>
+                activeMatch={tab.activeMatch}
+              />
             ))}
           </nav>
 
