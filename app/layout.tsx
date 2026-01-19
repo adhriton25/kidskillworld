@@ -17,12 +17,8 @@ export default function RootLayout({
     <html lang="en">
       <body className="bg-gray-50">
         <Header />
-
-        {/* Client component handles pathname logic */}
         <SubjectTabsWrapper />
-
         <main className="pt-4">{children}</main>
-
         <Footer />
       </body>
     </html>
