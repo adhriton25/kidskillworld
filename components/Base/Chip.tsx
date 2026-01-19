@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+import Image from 'next/image';
 import { X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -53,7 +54,7 @@ export const Chip = ({
     >
       {/* Left Icon or Avatar */}
       {avatar && (
-        <img src={avatar} alt={label} className="w-6 h-6 rounded-full -ml-1.5" />
+        <Image src={avatar} alt={label} width={24} height={24} className="rounded-full -ml-1.5" />
       )}
       {iconLeft && <span className="flex-shrink-0">{iconLeft}</span>}
       
