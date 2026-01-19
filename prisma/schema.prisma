@@ -5,7 +5,7 @@ datasource db {
 
 generator client {
   provider        = "prisma-client-js"
-previewFeatures = ["driverAdapters"]
+  previewFeatures = ["driverAdapters"]
 }
 
 // -----------------------------------------------------------------------------
@@ -13,7 +13,7 @@ previewFeatures = ["driverAdapters"]
 // -----------------------------------------------------------------------------
 model Grade {
   id         Int         @id @default(autoincrement())
-  name       String      @unique // e.g., "Grade 1", "K", "Pre-K"
+  name       String      @unique
   skills     Skill[]
   worksheets Worksheet[]
 
@@ -25,7 +25,7 @@ model Grade {
 // -----------------------------------------------------------------------------
 model Subject {
   id         Int         @id @default(autoincrement())
-  name       String      @unique // e.g., "Math", "Science"
+  name       String      @unique
   skills     Skill[]
   worksheets Worksheet[]
 
@@ -33,32 +33,45 @@ model Subject {
 }
 
 // -----------------------------------------------------------------------------
-// 3. Skill (Categorized by Subject and Grade)
+// 3. Skill Category
+// -----------------------------------------------------------------------------
+model SkillCategory {
+  id     Int     @id @default(autoincrement())
+  name   String  @unique
+  skills Skill[]
+}
+
+// -----------------------------------------------------------------------------
+// 4. Skill
 // -----------------------------------------------------------------------------
 model Skill {
   id              Int              @id @default(autoincrement())
-  name            String           @unique
+  name            String
   description     String?
+
   gradeId         Int
   subjectId       Int
-  
+  categoryId      Int
+
   grade           Grade            @relation(fields: [gradeId], references: [id])
   subject         Subject          @relation(fields: [subjectId], references: [id])
-  
+  category        SkillCategory    @relation(fields: [categoryId], references: [id])
+
   topics          Topic[]
   worksheetSkills WorksheetSkill[]
 
+  @@unique([name, gradeId, subjectId], name: "name_gradeId_subjectId")
   @@index([gradeId, subjectId])
 }
 
 // -----------------------------------------------------------------------------
-// 4. Topic (Belongs to a specific Skill)
+// 5. Topic
 // -----------------------------------------------------------------------------
 model Topic {
   id      Int             @id @default(autoincrement())
   name    String
   skillId Int
-  
+
   skill   Skill           @relation(fields: [skillId], references: [id])
   papers  PracticePaper[]
 
@@ -66,19 +79,19 @@ model Topic {
 }
 
 // -----------------------------------------------------------------------------
-// 5. Practice Paper (Individual PDF files within a Topic)
+// 6. Practice Paper
 // -----------------------------------------------------------------------------
 model PracticePaper {
   id      Int    @id @default(autoincrement())
   title   String
   pdfUrl  String
   topicId Int
-  
+
   topic   Topic  @relation(fields: [topicId], references: [id])
 }
 
 // -----------------------------------------------------------------------------
-// 6. Worksheet (The main Resource Entity)
+// 7. Worksheet
 // -----------------------------------------------------------------------------
 model Worksheet {
   id              Int              @id @default(autoincrement())
@@ -99,7 +112,7 @@ model Worksheet {
 }
 
 // -----------------------------------------------------------------------------
-// 7. WorksheetSkill (Join Table for Many-to-Many relationship)
+// 8. WorksheetSkill
 // -----------------------------------------------------------------------------
 model WorksheetSkill {
   id          Int       @id @default(autoincrement())
