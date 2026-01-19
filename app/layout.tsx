@@ -4,7 +4,7 @@ import { Footer } from "@/components/layout/Footer";
 import { SubjectTabsWrapper } from "@/components/layout/SubjectTabsWrapper";
 
 export const metadata = {
-  title: "ABC Learning",
+  title: "KidSkillWorld",
   description: "Kid-friendly learning platform",
 };
 

@@ -7,15 +7,19 @@ import { SubjectTabs } from "./SubjectTabs";
 export const SubjectTabsWrapper = () => {
   const pathname = usePathname();
 
-  const activeTab = HEADER_TABS.find((tab) =>
-    pathname.startsWith(tab.href)
-  );
+ const activeTab = HEADER_TABS.find((tab) => pathname === tab.href);
 
-  if (!activeTab?.showSubjectTabs) return null;
+
+  const show = activeTab?.showSubjectTabs;
 
   return (
-    <div className="max-w-7xl mx-auto mt-3 px-4">
-      <SubjectTabs />
+    <div
+      className={`
+        max-w-7xl mx-auto px-4 transition-all duration-500
+        ${show ? "opacity-100 translate-y-0 mt-3" : "opacity-0 -translate-y-4 pointer-events-none h-0"}
+      `}
+    >
+      {show && <SubjectTabs />}
     </div>
   );
 };

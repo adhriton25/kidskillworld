@@ -3,7 +3,7 @@ export const HEADER_TABS = [
     id: "home",
     label: "Home",
     href: "/",
-    activeMatch: "/", 
+    activeMatch: "/",
     showSubjectTabs: false,
   },
   {
@@ -11,7 +11,7 @@ export const HEADER_TABS = [
     label: "Learning",
     href: "/learning",
     activeMatch: "/learning",
-    showSubjectTabs: true,
+    showSubjectTabs: true, 
   },
   {
     id: "grades",
@@ -34,4 +34,4 @@ export const HEADER_TABS = [
     activeMatch: "/about",
     showSubjectTabs: false,
   },
-] as const;
+];
