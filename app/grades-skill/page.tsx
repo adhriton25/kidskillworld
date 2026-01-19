@@ -12,7 +12,7 @@ async function getGrades(): Promise<GradeWithDetails[]> {
   return res.json();
 }
 
-export default async function GradesSkillList() {
+export default async function GradesSkill() {
   const grades = await getGrades();
 
   return (

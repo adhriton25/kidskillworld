@@ -6,7 +6,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { GradeWithDetails } from "@/types/GradeWithDetails";
-import { getGradeColor, getSubjectIcon } from "@/lib/constant";
+import { getGradeColor, getSubjectIcon } from "@/lib/utils";
 
 export const GradeCard = ({ grade }: { grade: GradeWithDetails }) => {
   const [collapsedCategories, setCollapsedCategories] = useState<Record<string, boolean>>({});
