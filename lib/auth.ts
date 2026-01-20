@@ -11,6 +11,7 @@ export const authOptions: NextAuthOptions = {
         email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
       },
+
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
 
@@ -19,33 +20,46 @@ export const authOptions: NextAuthOptions = {
         });
         if (!user) return null;
 
+        // Handle nullable passwordHash
+        if (!user.passwordHash) return null;
+
         const isValid = await bcrypt.compare(
           credentials.password,
           user.passwordHash
         );
         if (!isValid) return null;
 
-        return { id: user.id, email: user.email, isSubscribed: user.isSubscribed };
+        return {
+          id: user.id,
+          email: user.email,
+          isSubscribed: user.isSubscribed,
+        };
       },
     }),
   ],
+
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = (user as any).id;
-        token.isSubscribed = (user as any).isSubscribed;
+        token.id = user.id;
+        token.email = user.email;
+        token.isSubscribed = user.isSubscribed;
       }
       return token;
     },
+
     async session({ session, token }) {
-      if (token && session.user) {
-        (session.user as any).id = token.id;
-        (session.user as any).isSubscribed = token.isSubscribed;
+      if (session.user) {
+        session.user.id = token.id;
+        session.user.email = token.email!;
+        session.user.isSubscribed = token.isSubscribed;
       }
       return session;
     },
   },
+
   session: { strategy: "jwt" },
+
   pages: {
     signIn: "/login",
   },

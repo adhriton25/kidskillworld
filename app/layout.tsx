@@ -1,4 +1,4 @@
-import "./globals.css";
+import '../styles/globals.scss';
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { SubjectTabsWrapper } from "@/components/layout/SubjectTabsWrapper";

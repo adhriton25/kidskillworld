@@ -1,0 +1,40 @@
+// Export as CSS variables
+:root {
+  --sky-blue: #3ba9ff;
+  --sunshine-yellow: #ffd93d;
+  --leaf-green: #4caf50;
+  --coral-orange: #ff7a59;
+  --grape-purple: #8e59ff;
+  --bubblegum-pink: #ff6fb5;
+  --ocean-teal: #2bbfbf;
+  --soft-red: #ff4c4c;
+  --deep-navy: #1c2b4a;
+  --cool-gray: #f2f4f7;
+  --dark-gray: #4a4a4a;
+
+  // Semantic
+  --color-primary: var(--sky-blue);
+  --color-secondary: var(--coral-orange);
+  --color-accent: var(--bubblegum-pink);
+  --color-success: var(--leaf-green);
+  --color-warning: var(--sunshine-yellow);
+  --color-error: var(--soft-red);
+  --color-info: var(--ocean-teal);
+
+  // Text & Background
+  --text-default: var(--dark-gray);
+  --text-on-dark: #ffffff;
+  --text-on-light: #000000;
+  --bg-default: #ffffff;
+  --bg-muted: var(--cool-gray);
+
+  // Grade Colors
+  --grade-0: var(--sky-blue);
+  --grade-1: var(--sunshine-yellow);
+  --grade-2: var(--leaf-green);
+  --grade-3: var(--coral-orange);
+  --grade-4: var(--grape-purple);
+  --grade-5: var(--bubblegum-pink);
+  --grade-6: var(--ocean-teal);
+  --grade-7: var(--soft-red);
+}

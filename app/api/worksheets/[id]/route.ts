@@ -1,12 +1,13 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
-type Params = { params: { id: string } };
+type Params = { params: Promise<{ id: string }> };
 
 export async function GET(_req: Request, { params }: Params) {
-  const id = Number(params.id);
+  const { id } = await params;
+  const numId = Number(id);
   const worksheet = await prisma.worksheet.findUnique({
-    where: { id },
+    where: { id: numId },
     include: {
       grade: true,
       subject: true,
@@ -22,12 +23,13 @@ export async function GET(_req: Request, { params }: Params) {
 }
 
 export async function PUT(req: Request, { params }: Params) {
-  const id = Number(params.id);
+  const { id } = await params;
+  const numId = Number(id);
   const body = await req.json();
   const { title, description, pdfUrl, gradeId, subjectId, skillIds } = body;
 
   const worksheet = await prisma.worksheet.update({
-    where: { id },
+    where: { id: numId },
     data: {
       title,
       description,
@@ -50,10 +52,11 @@ export async function PUT(req: Request, { params }: Params) {
 }
 
 export async function DELETE(_req: Request, { params }: Params) {
-  const id = Number(params.id);
+  const { id } = await params;
+  const numId = Number(id);
 
-  await prisma.worksheetSkill.deleteMany({ where: { worksheetId: id } });
-  await prisma.worksheet.delete({ where: { id } });
+  await prisma.worksheetSkill.deleteMany({ where: { worksheetId: numId } });
+  await prisma.worksheet.delete({ where: { id: numId } });
 
   return NextResponse.json({ success: true });
 }
