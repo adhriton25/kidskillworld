@@ -6,6 +6,7 @@ import { AppIcon } from "./AppIcon";
 import { MobileMenu } from "./MobileMenu";
 import { HEADER_TABS } from "@/Constant/header-tab";
 import { NavTab } from "./NavTab";
+import Link from "next/link";
 
 export const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -28,12 +29,12 @@ export const Header = () => {
             </button>
 
             {/* Mascot + Logo */}
-            <div className="flex items-center gap-2 cursor-pointer">
+            <Link href="/" className="flex items-center gap-2 cursor-pointer">
               <AppIcon />
               <h1 className="text-white text-2xl font-bold tracking-wide">
                 KidSkillWorld
               </h1>
-            </div>
+            </Link>
           </div>
 
           {/* Center: Tab Menu (desktop only) */}
