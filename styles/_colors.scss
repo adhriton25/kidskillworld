@@ -4,19 +4,30 @@
   --vivid-orange: #d35400;
   --hot-pink: #c2185b;
   --emerald-green: #1b8a3d;
-  --golden-amber: #b88600;
+  --golden-yellow: #b88600;
   --firebrick-red: #a40021;
   --teal-blue: #007a8e;
   --deep-purple: #6a1b9a;
   --soft-charcoal: #333333; //	Primary Body Text	Use on White or Cream
   --cloud-white: #f9f9f9; //	Main Background	Use with Dark Text
 
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-800: #1f2937;
+  --gray-900: #000000;
+
   // Semantic
   --color-primary: var(--deep-blue);
-  --color-secondary: var(--vivid-orange);
+  --color-secondary: var(--gray-100);
   --color-accent: var(--hot-pink);
   --color-success: var(--emerald-green);
-  --color-warning: var(--golden-amber);
+  --color-warning: var(--golden-yellow);
   --color-error: var(--firebrick-red);
   --color-info: var(--teal-blue);
 
@@ -32,7 +43,7 @@
   --grade-1: var(--vivid-orange);
   --grade-2: var(--hot-pink);
   --grade-3: var(--emerald-green);
-  --grade-4: var(--golden-amber);
+  --grade-4: var(--golden-yellow);
   --grade-5: var(--firebrick-red);
   --grade-6: var(--deep-purple);
   --grade-7: var(--teal-blue);

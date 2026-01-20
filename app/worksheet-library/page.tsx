@@ -156,7 +156,7 @@ export default function WorkSheetLibrary() {
                 <Chip label={selectedGrade} variant="filter" color="var(--emerald-green)" onRemove={() => removeFilter("grade")} />
               )}
               {selectedSkill && (
-                <Chip label={selectedSkill} variant="filter" color="#3b82f6" onRemove={() => removeFilter("skill")} />
+                <Chip label={selectedSkill} variant="filter" color="var(--vivid-orange)" onRemove={() => removeFilter("skill")} />
               )}
               <button
                 onClick={() => {

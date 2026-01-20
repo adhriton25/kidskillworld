@@ -10,7 +10,7 @@ type ButtonVariant =
   | "error"
   | "info";
 
-type ButtonShape = "square" | "rounded" ;
+type ButtonShape = "square" | "rounded";
 
 type ButtonMode = "button" | "loading" | "fab";
 
@@ -106,7 +106,7 @@ export const Button: React.FC<ButtonProps> = ({
   const baseStyles = `
     inline-flex items-center justify-center gap-2
     px-[var(--button-padding)] py-[var(--button-padding)]
-    text-[var(--button-text)]
+    ${variant === "secondary" ? "text-[var(--soft-charcoal)]" : "text-[var(--cloud-white)]"}
     ${shapeMap[shape]}
     shadow-md
     transition-all duration-[var(--duration-normal)]
@@ -139,7 +139,7 @@ export const Button: React.FC<ButtonProps> = ({
         disabled && "opacity-50 pointer-events-none",
         selected && "ring-2 ring-[var(--color-accent)]",
         showUnderline && "underline underline-offset-2",
-        className
+        className,
       )}
       style={{
         backgroundColor: bgColor,
