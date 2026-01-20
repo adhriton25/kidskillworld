@@ -10,7 +10,7 @@ type ButtonVariant =
   | "error"
   | "info";
 
-type ButtonShape = "square" | "rounded" | "pill";
+type ButtonShape = "square" | "rounded" ;
 
 type ButtonMode = "button" | "loading" | "fab";
 
@@ -54,7 +54,7 @@ interface ButtonProps {
 export const Button: React.FC<ButtonProps> = ({
   mode = "button",
   variant = "primary",
-  shape = "rounded",
+  shape = "square",
   disabled = false,
   selected = false,
   showUnderline = false,
@@ -67,9 +67,8 @@ export const Button: React.FC<ButtonProps> = ({
   isLinkButton = false,
   onClick,
   onKeyDown,
-  loadingText = "Loading...",
   spinnerSize = 18,
-  spinnerColor = "white",
+  spinnerColor = "Black",
   fabSize = "md",
   futureSlot,
 }) => {
@@ -92,9 +91,8 @@ export const Button: React.FC<ButtonProps> = ({
 
   // Shape mapping
   const shapeMap: Record<ButtonShape, string> = {
-    square: "rounded-[var(--radius-sm)]",
-    rounded: "rounded-[var(--radius-md)]",
-    pill: "rounded-[var(--radius-pill)]",
+    square: "rounded-[var(--radius-md)]",
+    rounded: "rounded-[var(--radius-pill)]",
   };
 
   // FAB sizes
@@ -151,7 +149,7 @@ export const Button: React.FC<ButtonProps> = ({
       {isLoading && (
         <>
           <span
-            className="absolute left-3 flex items-center justify-center"
+            className="flex items-center justify-center"
             style={{
               width: spinnerSize,
               height: spinnerSize,

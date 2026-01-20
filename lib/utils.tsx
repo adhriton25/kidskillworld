@@ -7,14 +7,14 @@ export function cn(...inputs: ClassValue[]) {
 // Color mapping for grades
 export const getGradeColor = (gradeId: number) => {
   const GRADE_COLORS: Record<number, string> = {
-  0: "bg-[var(--sky-blue)]",
-  1: "bg-[var(--sunshine-yellow)]",
-  2: "bg-[var(--leaf-green)]",
-  3: "bg-[var(--coral-orange)]",
-  4: "bg-[var(--grape-purple)]",
-  5: "bg-[var(--bubblegum-pink)]",
-  6: "bg-[var(--ocean-teal)]",
-  7: "bg-[var(--deep-orange)]",
+  0: "bg-[var(--grade-0)]",
+  1: "bg-[var(--grade-1)]",
+  2: "bg-[var(--grade-2)]",
+  3: "bg-[var(--grade-3)]",
+  4: "bg-[var(--grade-4)]",
+  5: "bg-[var(--grade-5)]",
+  6: "bg-[var(--grade-6)]",
+  7: "bg-[var(--grade-7)]",
 };
   return GRADE_COLORS[gradeId] || GRADE_COLORS[0];
 };

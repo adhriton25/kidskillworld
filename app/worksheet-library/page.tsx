@@ -85,7 +85,7 @@ export default function WorkSheetLibrary() {
                   onChange={() => setSelectedSubject(sub)}
                   className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
                 />
-                <span className={`text-sm transition-colors ${selectedSubject === sub ? "text-[var(--grape-purple)] font-bold" : "text-slate-600 group-hover:text-slate-900"}`}>
+                <span className={`text-sm transition-colors ${selectedSubject === sub ? "text-[var(--deep-purple)] font-bold" : "text-slate-600 group-hover:text-slate-900"}`}>
                   {sub}
                 </span>
               </label>
@@ -102,7 +102,7 @@ export default function WorkSheetLibrary() {
                 onClick={() => setSelectedGrade(grade)}
                 className={`py-2 text-xs font-medium rounded-md border transition-all ${
                   selectedGrade === grade
-                    ? "bg-[var(--leaf-green)] border-transparent text-white shadow-sm"
+                    ? "bg-[var(--emerald-green)] border-transparent text-white shadow-sm"
                     : "bg-white border-gray-200 text-slate-600 hover:border-gray-400"
                 }`}
               >
@@ -150,10 +150,10 @@ export default function WorkSheetLibrary() {
           {(selectedSubject || selectedGrade || selectedSkill) && (
             <div className="flex flex-wrap items-center gap-2 mb-8">
               {selectedSubject && (
-                <Chip label={selectedSubject} variant="filter" color="var(--grape-purple)" onRemove={() => removeFilter("subject")} />
+                <Chip label={selectedSubject} variant="filter" color="var(--deep-purple)" onRemove={() => removeFilter("subject")} />
               )}
               {selectedGrade && (
-                <Chip label={selectedGrade} variant="filter" color="var(--leaf-green)" onRemove={() => removeFilter("grade")} />
+                <Chip label={selectedGrade} variant="filter" color="var(--emerald-green)" onRemove={() => removeFilter("grade")} />
               )}
               {selectedSkill && (
                 <Chip label={selectedSkill} variant="filter" color="#3b82f6" onRemove={() => removeFilter("skill")} />

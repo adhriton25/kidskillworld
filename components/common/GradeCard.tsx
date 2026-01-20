@@ -6,7 +6,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { GradeWithDetails } from "@/types/GradeWithDetails";
-import { getGradeColor } from "@/lib/utils";
+
 import { getSubjectIcon } from "@/Constant/subjects";
 
 export const GradeCard = ({ grade }: { grade: GradeWithDetails }) => {
@@ -46,12 +46,10 @@ export const GradeCard = ({ grade }: { grade: GradeWithDetails }) => {
     {} as Record<string, typeof grade.skills>,
   );
 
-  const headerBg = getGradeColor(grade.id);
-
   return (
     <div className="w-full max-w-sm bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
       {/* Header */}
-      <div className={`${headerBg} py-4 text-center`}>
+      <div className={`bg-[var(--grade-${grade.id})] py-4 text-center`}>
         <h2 className="text-white text-3xl font-bold">{grade.name}</h2>
       </div>
 
