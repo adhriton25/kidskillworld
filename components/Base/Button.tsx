@@ -78,13 +78,13 @@ export const Button: React.FC<ButtonProps> = ({
 
   // Variant → CSS variable mapping
   const variantMap: Record<ButtonVariant, string> = {
-    primary: "var(--color-primary)",
-    secondary: "var(--color-secondary)",
-    accent: "var(--color-accent)",
-    success: "var(--color-success)",
-    warning: "var(--color-warning)",
-    error: "var(--color-error)",
-    info: "var(--color-info)",
+    primary: "var(--btn-primary)",
+    secondary: "var(--btn-secondary)",
+    accent: "var(--btn-accent)",
+    success: "var(--btn-success)",
+    warning: "var(--btn-warning)",
+    error: "var(--btn-error)",
+    info: "var(--btn-info)",
   };
 
   const bgColor = variantMap[variant];
