@@ -1,5 +1,4 @@
 @use "tailwindcss";
-@import "./tokens.css";
 @import 'colors';
 @import 'components';
 @import 'motion';
@@ -7,8 +6,6 @@
 @import 'shadows';
 @import 'spacing';
 @import 'typography';
-
-
 
 body {
   background: var(--background);
