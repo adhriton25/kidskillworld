@@ -10,6 +10,8 @@
   --deep-purple: #6a1b9a;
   --soft-charcoal: #333333; //	Primary Body Text	Use on White or Cream
   --cloud-white: #f9f9f9; //	Main Background	Use with Dark Text
+  --white: #ffffff;
+  --black: #000000;
 
   --ksw-theme-blue: #1d4ed8;
 
@@ -36,13 +38,13 @@
   --gray-900: #000000;
 
   // Button & UI Colors
-  --btn-primary: var(--ksw-theme-blue);
-  --btn-secondary: var(--gray-100);
-  --btn-accent: var(--hot-pink);
-  --btn-success: var(--emerald-green);
-  --btn-warning: var(--golden-yellow);
-  --btn-error: var(--firebrick-red);
-  --btn-info: var(--teal-blue);
+  // --btn-primary: var(--ksw-theme-blue);
+  // --btn-secondary: var(--gray-100);
+  // --btn-accent: var(--hot-pink);
+  // --btn-success: var(--emerald-green);
+  // --btn-warning: var(--golden-yellow);
+  // --btn-error: var(--firebrick-red);
+  // --btn-info: var(--teal-blue);
 
   // Text & Background
   --text-default: var(--soft-charcoal);

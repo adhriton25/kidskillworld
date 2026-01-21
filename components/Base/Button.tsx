@@ -11,50 +11,65 @@ type ButtonVariant =
   | "info";
 
 type ButtonShape = "square" | "rounded";
-
-type ButtonMode = "button" | "loading" | "fab";
+type ButtonMode = "button" | "loading";
+type ButtonSize = "sm" | "md" | "lg";
 
 interface ButtonProps {
   mode?: ButtonMode;
-
-  // Shared props
   variant?: ButtonVariant;
   shape?: ButtonShape;
+  size?: ButtonSize;
   disabled?: boolean;
   selected?: boolean;
   showUnderline?: boolean;
   className?: string;
   children?: React.ReactNode;
 
-  // Icons
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
 
-  // Link behavior
   href?: string;
   target?: "_self" | "_blank";
   isLinkButton?: boolean;
 
-  // Events
-  onClick?: (e: any) => void;
-  onKeyDown?: (e: any) => void;
-
-  // Loading mode
   loadingText?: string;
   spinnerSize?: number;
   spinnerColor?: string;
 
-  // FAB mode
-  fabSize?: "sm" | "md" | "lg";
-
-  // Future extensibility
   futureSlot?: React.ReactNode;
+
+  onClick?: (e: any) => void;
+  onKeyDown?: (e: any) => void;
 }
+
+// Centralized variant system
+const VARIANTS_TYPE = {
+  primary: { bg: "var(--btn-primary)", text: "var(--white)" },
+  secondary: { bg: "var(--btn-secondary)", text: "var(--black)" }, // always black
+  accent: { bg: "var(--btn-accent)", text: "var(--white)" },
+  success: { bg: "var(--btn-success)", text: "var(--white)" },
+  warning: { bg: "var(--btn-warning)", text: "var(--black)" },
+  error: { bg: "var(--btn-error)", text: "var(--white)" },
+  info: { bg: "var(--btn-info)", text: "var(--white)" },
+} as const;
+
+const SHAPES = {
+  square: "rounded-[var(--radius-md)]",
+  rounded: "rounded-[var(--radius-pill)]",
+} as const;
+
+// NEW SIZE SYSTEM
+const SIZES = {
+  sm: "px-3 py-1 text-sm",
+  md: "px-4 py-2 text-base",
+  lg: "px-6 py-3 text-lg",
+} as const;
 
 export const Button: React.FC<ButtonProps> = ({
   mode = "button",
   variant = "primary",
   shape = "square",
+  size = "md",
   disabled = false,
   selected = false,
   showUnderline = false,
@@ -65,84 +80,60 @@ export const Button: React.FC<ButtonProps> = ({
   href,
   target = "_self",
   isLinkButton = false,
-  onClick,
-  onKeyDown,
   spinnerSize = 18,
   spinnerColor = "Black",
-  fabSize = "md",
-  futureSlot,
+  onClick,
+  onKeyDown,
 }) => {
-  // Determine if this should render as <button> or <a>
-  const isButton = onClick || !href || isLinkButton;
-  const ComponentTag: any = isButton ? "button" : "a";
-
-  // Variant → CSS variable mapping
-  const variantMap: Record<ButtonVariant, string> = {
-    primary: "var(--btn-primary)",
-    secondary: "var(--btn-secondary)",
-    accent: "var(--btn-accent)",
-    success: "var(--btn-success)",
-    warning: "var(--btn-warning)",
-    error: "var(--btn-error)",
-    info: "var(--btn-info)",
-  };
-
-  const bgColor = variantMap[variant];
-
-  // Shape mapping
-  const shapeMap: Record<ButtonShape, string> = {
-    square: "rounded-[var(--radius-md)]",
-    rounded: "rounded-[var(--radius-pill)]",
-  };
-
-  // FAB sizes
-  const fabSizeMap = {
-    sm: "w-12 h-12 text-lg",
-    md: "w-14 h-14 text-xl",
-    lg: "w-16 h-16 text-2xl",
-  };
+  const variantType = VARIANTS_TYPE[variant];
+  const isLoading = mode === "loading";
 
   // Shared base styles
   const baseStyles = `
     inline-flex items-center justify-center gap-2
-    px-[var(--button-padding)] py-[var(--button-padding)]
-    ${variant === "secondary" ? "text-[var(--soft-charcoal)]" : "text-[var(--cloud-white)]"}
-    ${shapeMap[shape]}
-    shadow-md
     transition-all duration-[var(--duration-normal)]
     focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]
+    whitespace-nowrap
+    ${SIZES[size]}
   `;
 
-  // FAB styles override everything
-  const fabStyles = `
-    fixed bottom-6 right-6
-    flex items-center justify-center
-    rounded-full
-    shadow-lg
-    text-white
-    hover:scale-110 active:scale-95
-    ${fabSizeMap[fabSize]}
+  // Normal button styles
+  const buttonStyles = `
+    ${SHAPES[shape]}
+    shadow-md
   `;
 
-  const isLoading = mode === "loading";
-  const isFab = mode === "fab";
+  // Text-link button styles
+  const linkStyles = `
+    bg-transparent
+    underline underline-offset-2
+    shadow-none
+  `;
+
+  // TEXT COLOR LOGIC
+  const textColor = isLinkButton
+    ? variantType.bg // link → text = variant color
+    : variant === "secondary"
+    ? "var(--black)" // secondary always black
+    : "var(--white)"; // all other buttons → white
 
   return (
-    <ComponentTag
-      href={!isButton && href ? href : undefined}
-      target={!isButton ? target : undefined}
-      disabled={isButton ? disabled : undefined}
-      onClick={isButton ? onClick : undefined}
+    <a
+      href={href}
+      target={target}
+      onClick={onClick}
       onKeyDown={onKeyDown}
       className={clsx(
-        isFab ? fabStyles : baseStyles,
+        baseStyles,
+        isLinkButton ? linkStyles : buttonStyles,
         disabled && "opacity-50 pointer-events-none",
         selected && "ring-2 ring-[var(--color-accent)]",
         showUnderline && "underline underline-offset-2",
-        className,
+        className
       )}
       style={{
-        backgroundColor: bgColor,
+        backgroundColor: isLinkButton ? "transparent" : variantType.bg,
+        color: textColor,
       }}
     >
       {/* LOADING MODE */}
@@ -163,20 +154,14 @@ export const Button: React.FC<ButtonProps> = ({
         </>
       )}
 
-      {/* NORMAL BUTTON */}
-      {!isLoading && !isFab && (
+      {/* NORMAL MODE */}
+      {!isLoading && (
         <>
           {leftIcon && <span className="flex items-center">{leftIcon}</span>}
-          <span className="whitespace-nowrap">{children}</span>
+          <span>{children}</span>
           {rightIcon && <span className="flex items-center">{rightIcon}</span>}
         </>
       )}
-
-      {/* FAB MODE */}
-      {isFab && <span>{children}</span>}
-
-      {/* Future extensibility */}
-      {futureSlot}
 
       <style>{`
         @keyframes spin {
@@ -184,6 +169,6 @@ export const Button: React.FC<ButtonProps> = ({
           to { transform: rotate(360deg); }
         }
       `}</style>
-    </ComponentTag>
+    </a>
   );
 };
