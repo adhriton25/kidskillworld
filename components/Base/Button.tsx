@@ -1,14 +1,7 @@
 import React from "react";
 import clsx from "clsx";
 
-type ButtonVariant =
-  | "primary"
-  | "secondary"
-  | "accent"
-  | "success"
-  | "warning"
-  | "error"
-  | "info";
+type ButtonVariant = "primary" | "secondary" | "tertiary";
 
 type ButtonShape = "square" | "rounded";
 type ButtonMode = "button" | "loading";
@@ -20,7 +13,6 @@ interface ButtonProps {
   shape?: ButtonShape;
   size?: ButtonSize;
   disabled?: boolean;
-  selected?: boolean;
   showUnderline?: boolean;
   className?: string;
   children?: React.ReactNode;
@@ -42,13 +34,21 @@ interface ButtonProps {
 
 // Variant tokens
 const VARIANTS = {
-  primary: { bg: "var(--btn-primary)", text: "var(--white)" },
-  secondary: { bg: "var(--btn-secondary)", text: "var(--black)" },
-  accent: { bg: "var(--btn-accent)", text: "var(--white)" },
-  success: { bg: "var(--btn-success)", text: "var(--white)" },
-  warning: { bg: "var(--btn-warning)", text: "var(--black)" },
-  error: { bg: "var(--btn-error)", text: "var(--white)" },
-  info: { bg: "var(--btn-info)", text: "var(--white)" },
+  primary: {
+    bg: "var(--ksw-color-action-primary-default)",
+    text: "var(--white)",
+    hover: "var(--ksw-color-action-primary-active)",
+  },
+  secondary: {
+    bg: "var(--ksw-color-action-secondary-default)",
+    text: "var(--black)",
+    hover: "var(--ksw-color-action-secondary-active)",
+  },
+  tertiary: {
+    bg: "var(--ksw-color-action-tertiary-default)",
+    text: "var(--white)",
+    hover: "var(--ksw-color-action-tertiary-active)",
+  },
 } as const;
 
 const SHAPES = {
@@ -57,9 +57,9 @@ const SHAPES = {
 } as const;
 
 const SIZES = {
-  sm: "px-3 py-1 h-8",
-  md: "px-6 py-3 h-12",
-  lg: "px-8 py-4 h-16",
+  sm: "px-3 py-1 h-8 text-[1rem] ",
+  md: "px-6 py-3 h-12 text-[1.2rem] ",
+  lg: "px-8 py-4 h-16 text-[2rem]",
 } as const;
 
 export const Button: React.FC<ButtonProps> = ({
@@ -68,7 +68,6 @@ export const Button: React.FC<ButtonProps> = ({
   shape = "square",
   size = "md",
   disabled = false,
-  selected = false,
   showUnderline = false,
   className,
   children,
@@ -87,22 +86,25 @@ export const Button: React.FC<ButtonProps> = ({
   const variantType = VARIANTS[variant];
 
   // Text color logic
-  const textColor = variant === "secondary" ? variantType.text : isLinkButton
-    ? variantType.bg
-    : variantType.text;
+  const textColor =
+    variant === "secondary"
+      ? variantType?.text
+      : isLinkButton
+        ? variantType?.bg
+        : variantType?.text;
 
   // Base classes
   const classes = clsx(
     "font-medium inline-flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer",
-    "focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]",
+    "font-bold transition duration-200 ease-in-out ",
+    isLinkButton ? "" : "border-2",
     SIZES[size],
     isLinkButton
-      ? "bg-transparent underline underline-offset-2 shadow-none"
+      ? "bg-transparent underline underline-offset-4 shadow-none"
       : `${SHAPES[shape]} shadow-md`,
     disabled && "opacity-50 pointer-events-none",
-    selected && "ring-2 ring-[var(--color-accent)]",
-    showUnderline && "underline underline-offset-2",
-    className
+    showUnderline && "underline underline-offset-4",
+    className,
   );
 
   return (
@@ -114,7 +116,7 @@ export const Button: React.FC<ButtonProps> = ({
       onKeyDown={onKeyDown}
       className={classes}
       style={{
-        backgroundColor: isLinkButton ? "transparent" : variantType.bg,
+        backgroundColor: isLinkButton ? "transparent" : variantType?.bg,
         color: textColor,
       }}
     >

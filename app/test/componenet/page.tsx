@@ -20,17 +20,17 @@ export default function ComponentGallery() {
         >
           Secondary Button
         </Button>
-        <Button variant="accent"  size="sm">
-          Small Accent Button
+        <Button variant="tertiary"  size="sm">
+          Small Tertiary Button
         </Button>
-        <Button variant="success" mode="loading"  selected>
-          selected Success Button
+        <Button variant="tertiary" mode="loading" >
+          selected Tertiary Button
         </Button>
-        <Button variant="error" mode="button" shape="rounded" disabled>
-          disabled Error Button
+        <Button variant="secondary" mode="button" shape="rounded" disabled>
+          disabled Secondary Button
         </Button>
-        <Button variant="info" mode="button" size="lg">
-          large Info
+        <Button variant="tertiary" mode="button" size="lg">
+          large Tertiary Button
         </Button>
       </div>
       <div className="m-10 flex  gap-4">
@@ -51,17 +51,17 @@ export default function ComponentGallery() {
         >
           Secondary Button
         </Button>
-        <Button variant="accent" mode="button" isLinkButton>
-          Accent Button
+        <Button variant="tertiary" mode="button" isLinkButton>
+          Tertiary Button
         </Button>
-        <Button variant="success" mode="button" isLinkButton>
-          Success Button
+        <Button variant="tertiary" mode="button" isLinkButton>
+          Tertiary Button
         </Button>
-        <Button variant="error" mode="button" isLinkButton>
-          Error Button
+        <Button variant="secondary" mode="button" isLinkButton>
+          Secondary Button
         </Button>
-        <Button variant="info" mode="button" isLinkButton = {true} href="/learning">
-          Info Button
+        <Button variant="tertiary" mode="button" isLinkButton>
+          Tertiary Button
         </Button>
       </div>
     </>

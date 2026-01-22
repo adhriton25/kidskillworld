@@ -3,7 +3,7 @@
   --deep-blue: #0047ab;
   --vivid-orange: #d35400;
   --hot-pink: #c2185b;
-  --emerald-green: #1b8a3d;
+  --emerald-green:    #78be20; 
   --golden-yellow: #b88600;
   --firebrick-red: #a40021;
   --teal-blue: #007a8e;
@@ -13,7 +13,14 @@
   --white: #ffffff;
   --black: #000000;
 
-  --ksw-theme-blue: #1d4ed8;
+ --ksw-color-action-primary-active:#001d5a;
+ --ksw-color-action-primary-default:#003DA5;
+
+ --ksw-color-action-secondary-active:#003DA5;
+ --ksw-color-action-secondary-default:#ffffff;
+
+ --ksw-color-action-tertiary-active:#487815;
+ --ksw-color-action-tertiary-default:#78be20;
 
   --blue-50: #eff6ff;
   --blue-100: #dbeafe;
@@ -39,16 +46,6 @@
 
 
 
-  
-  /* BUTTON COLORS */
-  --btn-primary: var(--ksw-theme-blue);
-  --btn-secondary: var(--gray-50);
-  --btn-accent: var(--hot-pink);
-  --btn-success: var(--emerald-green);
-  --btn-warning: var(--golden-yellow);
-  --btn-error: var(--firebrick-red);
-  --btn-info: var(--teal-blue);
-
   /* TEXT COLORS */
   --white: #ffffff;
   --black: #000000;
@@ -63,10 +60,6 @@
   --space-md: 0.75rem;
   --space-lg: 1rem;
   /* BUTTON COLORS */
-
-
-
-
 
 
   // Text & Background
