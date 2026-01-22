@@ -36,16 +36,14 @@ interface ButtonProps {
   spinnerSize?: number;
   spinnerColor?: string;
 
-  futureSlot?: React.ReactNode;
-
   onClick?: (e: any) => void;
   onKeyDown?: (e: any) => void;
 }
 
-// Centralized variant system
-const VARIANTS_TYPE = {
+// Variant tokens
+const VARIANTS = {
   primary: { bg: "var(--btn-primary)", text: "var(--white)" },
-  secondary: { bg: "var(--btn-secondary)", text: "var(--black)" }, // always black
+  secondary: { bg: "var(--btn-secondary)", text: "var(--black)" },
   accent: { bg: "var(--btn-accent)", text: "var(--white)" },
   success: { bg: "var(--btn-success)", text: "var(--white)" },
   warning: { bg: "var(--btn-warning)", text: "var(--black)" },
@@ -58,11 +56,10 @@ const SHAPES = {
   rounded: "rounded-[var(--radius-pill)]",
 } as const;
 
-// NEW SIZE SYSTEM
 const SIZES = {
-  sm: "px-3 py-1 text-sm",
-  md: "px-4 py-2 text-base",
-  lg: "px-6 py-3 text-lg",
+  sm: "px-3 py-1 h-8",
+  md: "px-6 py-3 h-12",
+  lg: "px-8 py-4 h-16",
 } as const;
 
 export const Button: React.FC<ButtonProps> = ({
@@ -80,82 +77,63 @@ export const Button: React.FC<ButtonProps> = ({
   href,
   target = "_self",
   isLinkButton = false,
+  loadingText = "...loading",
   spinnerSize = 18,
   spinnerColor = "Black",
   onClick,
   onKeyDown,
 }) => {
-  const variantType = VARIANTS_TYPE[variant];
   const isLoading = mode === "loading";
+  const variantType = VARIANTS[variant];
 
-  // Shared base styles
-  const baseStyles = `
-    inline-flex items-center justify-center gap-2
-    transition-all duration-[var(--duration-normal)]
-    focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]
-    whitespace-nowrap
-    ${SIZES[size]}
-  `;
+  // Text color logic
+  const textColor = variant === "secondary" ? variantType.text : isLinkButton
+    ? variantType.bg
+    : variantType.text;
 
-  // Normal button styles
-  const buttonStyles = `
-    ${SHAPES[shape]}
-    shadow-md
-  `;
-
-  // Text-link button styles
-  const linkStyles = `
-    bg-transparent
-    underline underline-offset-2
-    shadow-none
-  `;
-
-  // TEXT COLOR LOGIC
-  const textColor = isLinkButton
-    ? variantType.bg // link → text = variant color
-    : variant === "secondary"
-    ? "var(--black)" // secondary always black
-    : "var(--white)"; // all other buttons → white
+  // Base classes
+  const classes = clsx(
+    "font-medium inline-flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer",
+    "focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]",
+    SIZES[size],
+    isLinkButton
+      ? "bg-transparent underline underline-offset-2 shadow-none"
+      : `${SHAPES[shape]} shadow-md`,
+    disabled && "opacity-50 pointer-events-none",
+    selected && "ring-2 ring-[var(--color-accent)]",
+    showUnderline && "underline underline-offset-2",
+    className
+  );
 
   return (
     <a
+      tabIndex={0}
       href={href}
       target={target}
       onClick={onClick}
       onKeyDown={onKeyDown}
-      className={clsx(
-        baseStyles,
-        isLinkButton ? linkStyles : buttonStyles,
-        disabled && "opacity-50 pointer-events-none",
-        selected && "ring-2 ring-[var(--color-accent)]",
-        showUnderline && "underline underline-offset-2",
-        className
-      )}
+      className={classes}
       style={{
         backgroundColor: isLinkButton ? "transparent" : variantType.bg,
         color: textColor,
       }}
     >
-      {/* LOADING MODE */}
-      {isLoading && (
+      {isLoading ? (
         <>
           <span
             className="flex items-center justify-center"
             style={{
               width: spinnerSize,
               height: spinnerSize,
-              border: `3px solid rgba(255,255,255,0.4)`,
+              border: "3px solid rgba(255,255,255,0.4)",
               borderTopColor: spinnerColor,
               borderRadius: "50%",
               animation: "spin 0.8s linear infinite",
             }}
           />
-          <span className="opacity-0">{children}</span>
+          <span>{loadingText}</span>
         </>
-      )}
-
-      {/* NORMAL MODE */}
-      {!isLoading && (
+      ) : (
         <>
           {leftIcon && <span className="flex items-center">{leftIcon}</span>}
           <span>{children}</span>

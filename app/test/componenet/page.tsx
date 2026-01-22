@@ -20,17 +20,17 @@ export default function ComponentGallery() {
         >
           Secondary Button
         </Button>
-        <Button variant="accent" mode="loading">
-          Accent Button
+        <Button variant="accent"  size="sm">
+          Small Accent Button
         </Button>
-        <Button variant="success" mode="button" selected>
+        <Button variant="success" mode="loading"  selected>
           selected Success Button
         </Button>
         <Button variant="error" mode="button" shape="rounded" disabled>
           disabled Error Button
         </Button>
-        <Button variant="info" mode="button">
-          Info
+        <Button variant="info" mode="button" size="lg">
+          large Info
         </Button>
       </div>
       <div className="m-10 flex  gap-4">
