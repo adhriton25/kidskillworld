@@ -1,4 +1,6 @@
+"use client";
 import { Button } from "@/components/Base/Button";
+import { Pagination } from "@/components/Base/Pagination";
 import { FlaskRound, FlipHorizontal } from "lucide-react";
 
 export default function ComponentGallery() {
@@ -20,10 +22,10 @@ export default function ComponentGallery() {
         >
           Secondary Button
         </Button>
-        <Button variant="tertiary"  size="sm">
+        <Button variant="tertiary" size="sm">
           Small Tertiary Button
         </Button>
-        <Button variant="tertiary" mode="loading" >
+        <Button variant="tertiary" mode="loading">
           selected Tertiary Button
         </Button>
         <Button variant="secondary" mode="button" shape="rounded" disabled>
@@ -64,6 +66,14 @@ export default function ComponentGallery() {
           Tertiary Button
         </Button>
       </div>
+
+      <Pagination
+        currentPage={1}
+        totalPages={20}
+        onPageChange={(page) => {
+          console.log(page);
+        }}
+      />
     </>
   );
 }
