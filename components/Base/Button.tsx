@@ -2,7 +2,6 @@ import React from "react";
 import clsx from "clsx";
 
 type ButtonVariant = "primary" | "secondary" | "tertiary";
-
 type ButtonShape = "square" | "rounded";
 type ButtonMode = "button" | "loading";
 type ButtonSize = "sm" | "md" | "lg";
@@ -35,19 +34,22 @@ interface ButtonProps {
 // Variant tokens
 const VARIANTS = {
   primary: {
-    bg: "var(--ksw-color-action-primary-default)",
-    text: "var(--white)",
-    hover: "var(--ksw-color-action-primary-active)",
+    bg: "bg-[var(--ksw-color-action-primary-default)]",
+    text: "text-[var(--white)]",
+    linkText: "text-[var(--ksw-color-action-primary-default)]",
+    hover: "hover:bg-[var(--ksw-color-action-primary-active)]",
   },
   secondary: {
-    bg: "var(--ksw-color-action-secondary-default)",
-    text: "var(--black)",
-    hover: "var(--ksw-color-action-secondary-active)",
+    bg: "bg-[var(--ksw-color-action-secondary-default)]",
+    text: "text-[var(--black)]",
+    linkText: "text-[var(--black)]",
+    hover: "hover:bg-[var(--ksw-color-action-secondary-active)]",
   },
   tertiary: {
-    bg: "var(--ksw-color-action-tertiary-default)",
-    text: "var(--white)",
-    hover: "var(--ksw-color-action-tertiary-active)",
+    bg: "bg-[var(--ksw-color-action-tertiary-default)]",
+    text: "text-[var(--white)]",
+    linkText: "text-[var(--ksw-color-action-tertiary-default)]",
+    hover: "hover:bg-[var(--ksw-color-action-tertiary-active)]",
   },
 } as const;
 
@@ -57,8 +59,8 @@ const SHAPES = {
 } as const;
 
 const SIZES = {
-  sm: "px-3 py-1 h-8 text-[1rem] ",
-  md: "px-6 py-3 h-12 text-[1.2rem] ",
+  sm: "px-3 py-1 h-8 text-[1rem]",
+  md: "px-6 py-3 h-12 text-[1.2rem]",
   lg: "px-8 py-4 h-16 text-[2rem]",
 } as const;
 
@@ -85,25 +87,25 @@ export const Button: React.FC<ButtonProps> = ({
   const isLoading = mode === "loading";
   const variantType = VARIANTS[variant];
 
-  // Text color logic
-  const textColor =
-    variant === "secondary"
-      ? variantType?.text
-      : isLinkButton
-        ? variantType?.bg
-        : variantType?.text;
-
-  // Base classes
   const classes = clsx(
-    "font-medium inline-flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer",
-    "font-bold transition duration-200 ease-in-out ",
-    isLinkButton ? "" : "border-2",
+    "font-medium inline-flex items-center justify-center gap-2", 
+    "whitespace-nowrap cursor-pointer font-bold transition duration-200 ease-in-out",
     SIZES[size],
-    isLinkButton
-      ? "bg-transparent underline underline-offset-4 shadow-none"
-      : `${SHAPES[shape]} shadow-md`,
     disabled && "opacity-50 pointer-events-none",
     showUnderline && "underline underline-offset-4",
+    // Link button mode
+    isLinkButton
+      ? [
+          "bg-transparent underline underline-offset-4 shadow-none border-0",
+          variantType.linkText,
+        ]
+      : [
+          variantType.bg,
+          variantType.text,
+          variantType.hover,
+          SHAPES[shape],
+          "border-2 shadow-md",
+        ],
     className,
   );
 
@@ -115,10 +117,6 @@ export const Button: React.FC<ButtonProps> = ({
       onClick={onClick}
       onKeyDown={onKeyDown}
       className={classes}
-      style={{
-        backgroundColor: isLinkButton ? "transparent" : variantType?.bg,
-        color: textColor,
-      }}
     >
       {isLoading ? (
         <>
