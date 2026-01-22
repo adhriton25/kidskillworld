@@ -3,48 +3,28 @@
   --deep-blue: #0047ab;
   --vivid-orange: #d35400;
   --hot-pink: #c2185b;
-  --emerald-green:    #78be20; 
+  --emerald-green: #78be20;
   --golden-yellow: #b88600;
   --firebrick-red: #a40021;
   --teal-blue: #007a8e;
   --deep-purple: #6a1b9a;
   --soft-charcoal: #333333; //	Primary Body Text	Use on White or Cream
   --cloud-white: #f9f9f9; //	Main Background	Use with Dark Text
-  --white: #ffffff;
-  --black: #000000;
 
- --ksw-color-action-primary-active:#001d5a;
- --ksw-color-action-primary-default:#003DA5;
+  --ksw-color-action-primary-active: #001d5a;
+  --ksw-color-action-primary-default: #003da5;
+  --ksw-color-action-secondary-active: #3b82f6;
+  --ksw-color-action-secondary-default: #3a3b3d;
+  --ksw-color-action-tertiary-active: #487815;
+  --ksw-color-action-tertiary-default: #78be20;
 
- --ksw-color-action-secondary-active:#3b82f6;
- --ksw-color-action-secondary-default:#ffffff;
-
- --ksw-color-action-tertiary-active:#487815;
- --ksw-color-action-tertiary-default:#78be20;
-
-  --blue-50: #eff6ff;
-  --blue-100: #dbeafe;
-  --blue-200: #bfdbfe;
-  --blue-300: #93c5fd;
-  --blue-400: #60a5fa;
-  --blue-500: #3b82f6;
-  --blue-600: #2563eb;
-  --blue-700: #1d4ed8;
-  --blue-800: #1e40af;
-  --blue-900: #1e3a8a;
-
-  --gray-50: #f9fafb;
-  --gray-100: #f3f4f6;
-  --gray-200: #e5e7eb;
-  --gray-300: #d1d5db;
-  --gray-400: #9ca3af;
-  --gray-500: #6b7280;
-  --gray-600: #4b5563;
-  --gray-700: #374151;
-  --gray-800: #1f2937;
-  --gray-900: #000000;
+  --ksw-border-width-default: 0.0825rem;
+  --ksw-border-radius-rounded: 0.5rem;
+  --ksw-color-border-default: #d1d5db;
 
 
+  --ksw-font-size-default: 1rem;
+  --ksw-font-line-height-default: 1.25rem;
 
   /* TEXT COLORS */
   --white: #ffffff;
@@ -60,7 +40,6 @@
   --space-md: 0.75rem;
   --space-lg: 1rem;
   /* BUTTON COLORS */
-
 
   // Text & Background
   --text-default: var(--soft-charcoal);

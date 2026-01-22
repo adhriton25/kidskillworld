@@ -1,0 +1,79 @@
+.primary-banner,
+.primary-light-banner,
+.secondary-banner,
+.secondary-light-banner,
+.tertiary-banner,
+.tertiary-light-banner {
+  width: fit-content;
+  border-radius: var(--ksw-border-radius-rounded);
+}
+
+.primary-banner {
+  color: var(--white);
+  background-color: var(--ksw-color-action-primary-default);
+}
+
+.primary-light-banner {
+  border: var(--ksw-border-width-default) solid
+    var(--ksw-color-action-primary-default);
+  color: var(--ksw-color-action-primary-default);
+  background-color: var(--white);
+}
+
+.secondary-banner {
+  border: var(--ksw-border-width-default) solid
+    var(--ksw-color-action-primary-default);
+  color: var(--white);
+  background-color: var(--ksw-color-action-secondary-default);
+}
+
+.secondary-light-banner {
+  border: var(--ksw-border-width-default) solid
+    var(--ksw-color-action-secondary-default);
+  color: var(--ksw-color-action-secondary-default);
+  background-color: var(--white);
+}
+
+
+.tertiary-banner {
+  color: var(--white);
+  background-color: var(--ksw-color-action-tertiary-default);
+}
+
+.tertiary-light-banner {
+  border: var(--ksw-border-width-default) solid
+    var(--ksw-color-action-tertiary-default);
+  color: var(--ksw-color-action-tertiary-default);
+  background-color: var(--white);
+}
+
+.ban-left-icon {
+  align-items: center;
+  margin-right: 0.5rem;
+}
+
+.ban-right-icon {
+  align-items: center;
+  margin-left: 0.5rem;
+}
+
+.banner-sm {
+  padding: 0.125rem 1rem;
+}
+.banner-md {
+  padding: 0.25rem 1rem;
+}
+.banner-lg {
+  padding: 0.5rem 1rem;
+}
+
+@media (max-width: 767px) {
+  .primary-banner,
+  .primary-light-banner,
+  .secondary-banner,
+  .secondary-light-banner,
+  .tertiary-banner,
+  .tertiary-light-banner {
+    font-size: 0.875rem;
+  }
+}

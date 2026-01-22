@@ -40,9 +40,9 @@ const VARIANTS = {
     hover: "hover:bg-[var(--ksw-color-action-primary-active)]",
   },
   secondary: {
-    bg: "bg-[var(--ksw-color-action-secondary-default)]",
-    text: "text-[var(--black)]",
-    linkText: "text-[var(--black)]",
+    bg: "bg-transparent",
+    text: "text-[var(--ksw-color-action-secondary-default)]",
+    linkText: "text-[var(--ksw-color-action-secondary-default)]",
     hover: "hover:bg-[var(--ksw-color-action-secondary-active)]",
   },
   tertiary: {
@@ -104,7 +104,8 @@ export const Button: React.FC<ButtonProps> = ({
           variantType.text,
           variantType.hover,
           SHAPES[shape],
-          "border-2 shadow-md",
+          variant === "secondary" ? "border-2 " : "border-0",
+          "shadow-sm"
         ],
     className,
   );

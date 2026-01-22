@@ -1,78 +1,75 @@
 "use client";
+import React, { ReactNode } from "react";
+import "./chip.scss";
 
-import React from 'react';
-import Image from 'next/image';
-import { X } from 'lucide-react';
-import { cn } from '@/lib/utils';
+type ChipIconPosition = "left" | "right";
+type ChipVariant =
+  | "primary"
+  | "primary-light"
+  | "secondary"
+  | "secondary-light"
+  | "tertiary"
+  | "tertiary-light";
+type ChipSize = "sm" | "md" | "lg";
 
-
-interface ChipProps {
-  label: string;
-  variant?: 'default' | 'outline' | 'filter' | 'choice';
-  color?: string; // For solid colored chips like Apple/Google
-  isActive?: boolean;
-  avatar?: string; // For Input Chips with images
-  iconLeft?: React.ReactNode; // For choice chips (e.g., Email, Game icons)
-  onRemove?: () => void; // Shows the X button if provided
+export interface ChipProps {
   onClick?: () => void;
   className?: string;
+  variant?: ChipVariant;
+  size?: ChipSize;
+  icon?: ReactNode;
+  bold?: boolean;
+  iconPosition?: ChipIconPosition;
+  text: string;
 }
 
-export const Chip = ({
-  label,
-  variant = 'default',
-  color,
-  isActive = false,
-  avatar,
-  iconLeft,
-  onRemove,
+const Chip: React.FC<ChipProps> = ({
+  className = "",
+  variant = "primary",
+  size = "md",
+  icon,
+  bold = true,
+  iconPosition = "left",
+  text,
   onClick,
-  className,
-}: ChipProps) => {
-  
-  // Dynamic base styles based on variant
-  const variantStyles = {
-    default: "bg-gray-100 text-gray-700 border-transparent",
-    outline: "bg-white border-blue-400 text-blue-600",
-    filter: isActive 
-      ? "bg-gray-300 text-gray-900 border-transparent font-semibold" 
-      : "bg-gray-100 text-gray-600 border-transparent",
-    choice: "bg-white border-gray-200 text-gray-700 hover:border-gray-400",
-  };
+  ...rest
+}) => {
+  const customClass = [
+    className,
+    `${variant}-banner `,
+    "flex items-center",
+    `banner-${size}`,
+    bold && "font-bold",
+    onClick && "cursor-pointer",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  const childComponent = (
+    <>
+      {iconPosition === "left" && icon && (
+        <span className="ban-left-icon flex">{icon}</span>
+      )}
+      <span className="flex-1 text-wrap">{text}</span>
+      {iconPosition === "right" && icon && (
+        <span className="ban-right-icon flex">{icon}</span>
+      )}
+    </>
+  );
 
   return (
-    <div
-      onClick={onClick}
-      style={{ backgroundColor: color && !isActive ? color : undefined }}
-      className={cn(
-        "inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm transition-all cursor-pointer select-none",
-        variantStyles[variant],
-        color && "text-white border-none", // Auto-white text for solid background colors
-        isActive && variant === 'choice' && "bg-rose-500 border-rose-500 text-white",
-        className
-      )}
-    >
-      {/* Left Icon or Avatar */}
-      {avatar && (
-        <Image src={avatar} alt={label} width={24} height={24} className="rounded-full -ml-1.5" />
-      )}
-      {iconLeft && <span className="flex-shrink-0">{iconLeft}</span>}
-      
-      {/* Label */}
-      <span className="leading-none">{label}</span>
-
-      {/* Close Button */}
-      {onRemove && (
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            onRemove();
-          }}
-          className="hover:bg-black/10 rounded-full p-0.5 transition-colors"
-        >
-          <X size={14} />
+    <>
+      {onClick ? (
+        <button {...rest} onClick={onClick} className={customClass}>
+          {childComponent}
         </button>
+      ) : (
+        <div {...rest} className={customClass}>
+          {childComponent}
+        </div>
       )}
-    </div>
+    </>
   );
 };
+
+export default Chip;

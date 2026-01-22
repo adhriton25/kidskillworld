@@ -1,5 +1,6 @@
 "use client";
 import { Button } from "@/components/Base/Button";
+import Chip from "@/components/Base/Chip";
 import { Pagination } from "@/components/Base/Pagination";
 import { FlaskRound, FlipHorizontal } from "lucide-react";
 
@@ -74,6 +75,27 @@ export default function ComponentGallery() {
           console.log(page);
         }}
       />
+
+      <div className="m-10 flex  gap-4">
+        <Chip
+          variant="primary"
+          size="sm"
+          icon={<FlaskRound />}
+          text={"primary  small chip"}
+        />
+        <Chip
+          variant="primary-light"
+          size="md"
+          icon={<FlipHorizontal />}
+          text={"primary-light medium chip"}
+        />
+        <Chip variant="secondary" size="lg" text="secondary  large chip" />
+        <Chip variant="secondary-light" size="sm" text="secondary-light chip" />
+      </div>
+      <div className="m-10 flex  gap-4">
+        <Chip variant="tertiary" text="tertiary chip" />
+        <Chip variant="tertiary-light" size="lg" text="large tertiary chip" />
+      </div>
     </>
   );
 }

@@ -2,9 +2,9 @@
 
 import React, { useState, useEffect } from "react";
 import { PdfCard } from "@/components/common/PDF/PdfCard";
-import { Chip } from "@/components/Base/Chip";
 import { Pagination } from "@/components/Base/Pagination";
 import { getAvailableSkillsAction, getWorksheetsAction } from "../actions/worksheets";
+import Chip from "@/components/Base/Chip";
 
 const SUBJECTS = [
   "Math",
@@ -150,13 +150,13 @@ export default function WorkSheetLibrary() {
           {(selectedSubject || selectedGrade || selectedSkill) && (
             <div className="flex flex-wrap items-center gap-2 mb-8">
               {selectedSubject && (
-                <Chip label={selectedSubject} variant="filter" color="var(--deep-purple)" onRemove={() => removeFilter("subject")} />
+                <Chip text={selectedSubject} variant="primary" onClick={() => removeFilter("subject")} />
               )}
               {selectedGrade && (
-                <Chip label={selectedGrade} variant="filter" color="var(--emerald-green)" onRemove={() => removeFilter("grade")} />
+                <Chip text={selectedGrade} variant="primary" onClick={() => removeFilter("grade")} />
               )}
               {selectedSkill && (
-                <Chip label={selectedSkill} variant="filter" color="var(--vivid-orange)" onRemove={() => removeFilter("skill")} />
+                <Chip text={selectedSkill} variant="primary" onClick={() => removeFilter("skill")} />
               )}
               <button
                 onClick={() => {
