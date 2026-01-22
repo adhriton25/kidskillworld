@@ -1,6 +1,6 @@
 "use client";
 import React, { ReactNode } from "react";
-import "./chip.scss";
+import clsx from "clsx";
 
 type ChipIconPosition = "left" | "right";
 type ChipVariant =
@@ -23,6 +23,45 @@ export interface ChipProps {
   text: string;
 }
 
+const CHIP_VARIANTS = {
+  primary: {
+    bg: "var(--ksw-color-action-primary-default)",
+    text: "var(--white)",
+    border: "none",
+  },
+  "primary-light": {
+    bg: "var(--white)",
+    text: "var(--ksw-color-action-primary-default)",
+    border: "0.0825rem solid var(--ksw-color-action-primary-default)",
+  },
+  secondary: {
+    bg: "var(--ksw-color-action-secondary-default)",
+    text: "var(--white)",
+    border: "none",
+  },
+  "secondary-light": {
+    bg: "var(--white)",
+    text: "var(--ksw-color-action-secondary-default)",
+    border: "0.0825rem solid var(--ksw-color-action-secondary-default)",
+  },
+  tertiary: {
+    bg: "var(--ksw-color-action-tertiary-default)",
+    text: "var(--white)",
+    border: "none",
+  },
+  "tertiary-light": {
+    bg: "var(--white)",
+    text: "var(--ksw-color-action-tertiary-default)",
+    border: "0.0825rem solid var(--ksw-color-action-tertiary-default)",
+  },
+} as const;
+
+const CHIP_SIZES = {
+  sm: "px-4 py-0.5",
+  md: "px-4 py-1",
+  lg: "px-4 py-2",
+} as const;
+
 const Chip: React.FC<ChipProps> = ({
   className = "",
   variant = "primary",
@@ -34,25 +73,25 @@ const Chip: React.FC<ChipProps> = ({
   onClick,
   ...rest
 }) => {
-  const customClass = [
-    className,
-    `${variant}-banner `,
-    "flex items-center",
-    `banner-${size}`,
+  const variantStyles = CHIP_VARIANTS[variant];
+
+  const classes = clsx(
+    "inline-flex items-center w-fit rounded-[var(--ksw-border-radius-rounded)]",
+    "transition duration-200 ease-in-out",
+    CHIP_SIZES[size],
     bold && "font-bold",
     onClick && "cursor-pointer",
-  ]
-    .filter(Boolean)
-    .join(" ");
+    className,
+  );
 
   const childComponent = (
     <>
       {iconPosition === "left" && icon && (
-        <span className="ban-left-icon flex">{icon}</span>
+        <span className="flex items-center mr-2">{icon}</span>
       )}
       <span className="flex-1 text-wrap">{text}</span>
       {iconPosition === "right" && icon && (
-        <span className="ban-right-icon flex">{icon}</span>
+        <span className="flex items-center ml-2">{icon}</span>
       )}
     </>
   );
@@ -60,14 +99,40 @@ const Chip: React.FC<ChipProps> = ({
   return (
     <>
       {onClick ? (
-        <button {...rest} onClick={onClick} className={customClass}>
+        <button
+          {...rest}
+          onClick={onClick}
+          className={classes}
+          style={{
+            backgroundColor: variantStyles.bg,
+            color: variantStyles.text,
+            border: variantStyles.border,
+          }}
+        >
           {childComponent}
         </button>
       ) : (
-        <div {...rest} className={customClass}>
+        <div
+          {...rest}
+          className={classes}
+          style={{
+            backgroundColor: variantStyles.bg,
+            color: variantStyles.text,
+            border: variantStyles.border,
+          }}
+        >
           {childComponent}
         </div>
       )}
+
+      <style>{`
+        @media (max-width: 767px) {
+          button[class*="inline-flex"],
+          div[class*="inline-flex"] {
+            font-size: 0.875rem;
+          }
+        }
+      `}</style>
     </>
   );
 };
