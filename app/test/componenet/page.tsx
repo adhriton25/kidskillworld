@@ -40,19 +40,21 @@ export default function ComponentGallery() {
         <Button
           variant="primary"
           mode="button"
+          size="lg"
           showUnderline
           isLinkButton
           leftIcon={<FlaskRound />}
         >
-          Primary underline Button
+          Primary  large underline Button
         </Button>
         <Button
           variant="secondary"
+          size="sm"
           mode="button"
           isLinkButton
           rightIcon={<FlipHorizontal />}
         >
-          Secondary Button
+          Secondary small Button
         </Button>
         <Button variant="tertiary" mode="button" isLinkButton>
           Tertiary Button
