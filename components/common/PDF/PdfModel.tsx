@@ -3,6 +3,7 @@
 import React from "react";
 import { X, Printer, Download, Play } from "lucide-react";
 import { Button } from "@/components/Base/Button";
+import Chip from "@/components/Base/Chip";
 
 interface PdfModelProps {
   isOpen: boolean;
@@ -39,13 +40,13 @@ export const PdfModel = ({ isOpen, onClose, data }: PdfModelProps) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
       <div className="relative w-full max-w-4xl bg-white rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row">
-        <button
+        <Button
           onClick={onClose}
-          className="absolute right-4 top-4 text-gray-400 hover:text-gray-600 z-10"
-        >
-          <X size={24} />
-        </button>
-
+          isLinkButton
+          variant="secondary"
+          className="absolute right-4 top-4 z-10"
+          leftIcon={<X />}
+        />
         {/* Left Side: Preview */}
         <div className="w-full md:w-1/2 bg-gray-100 p-8 flex items-center justify-center">
           <div className="w-full aspect-[3/4] bg-white shadow-md border border-gray-200 overflow-hidden rounded-lg">
@@ -60,12 +61,18 @@ export const PdfModel = ({ isOpen, onClose, data }: PdfModelProps) => {
         {/* Right Side: Details */}
         <div className="w-full md:w-1/2 p-8 flex flex-col gap-6">
           <div className="flex gap-2">
-            <span className="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-xs font-bold uppercase">
-              {data.grade}
-            </span>
-            <span className="border border-gray-300 px-3 py-1 rounded-full text-xs font-bold uppercase">
-              {data.subject}
-            </span>
+            <Chip
+              variant="primary"
+              size="sm"
+              text={data.grade}
+              className="uppercase"
+            />
+            <Chip
+              variant="secondary-light"
+              size="sm"
+              text={data.subject}
+              className="uppercase"
+            />
           </div>
 
           <h2 className="text-4xl font-serif font-bold text-slate-800">
@@ -81,12 +88,12 @@ export const PdfModel = ({ isOpen, onClose, data }: PdfModelProps) => {
             </h4>
             <div className="flex flex-wrap gap-2">
               {data.worksheetSkills.map((skill, i) => (
-                <span
+                <Chip
                   key={i}
-                  className="bg-slate-100 px-4 py-2 rounded-lg text-sm font-medium text-slate-700"
-                >
-                  {skill.name}
-                </span>
+                  variant="secondary"
+                  size="sm"
+                  text={skill.name}
+                ></Chip>
               ))}
             </div>
           </div>

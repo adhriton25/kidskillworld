@@ -24,8 +24,8 @@ export interface ChipProps {
 
 const CHIP_VARIANTS = {
   primary: {
-    bg: "var(--ksw-color-action-primary-default)",
-    text: "var(--white)",
+    bg: "var(--ksw-color-action-primary-base)",
+    text: "var(--ksw-color-action-primary-default)",
     border: "none",
   },
   "primary-light": {
@@ -34,8 +34,8 @@ const CHIP_VARIANTS = {
     border: "0.0825rem solid var(--ksw-color-action-primary-default)",
   },
   secondary: {
-    bg: "var(--ksw-color-action-secondary-default)",
-    text: "var(--white)",
+    bg: "var(--ksw-color-action-secondary-base)",
+    text: "var(--ksw-color-action-secondary-default)",
     border: "none",
   },
   "secondary-light": {
@@ -44,8 +44,8 @@ const CHIP_VARIANTS = {
     border: "0.0825rem solid var(--ksw-color-action-secondary-default)",
   },
   tertiary: {
-    bg: "var(--ksw-color-action-tertiary-default)",
-    text: "var(--white)",
+    bg: "var(--ksw-color-action-tertiary-base)",
+    text: "var(--ksw-color-action-tertiary-default)",
     border: "none",
   },
   "tertiary-light": {
@@ -56,7 +56,7 @@ const CHIP_VARIANTS = {
 } as const;
 
 const CHIP_SIZES = {
-  sm: "text-sm px-4 py-1",
+  sm: "text-xs px-4 py-1",
   md: "text-md px-4 py-2",
   lg: "text-lg px-4 py-3",
 } as const;
@@ -64,7 +64,7 @@ const CHIP_SIZES = {
 const Chip: React.FC<ChipProps> = ({
   className = "",
   variant = "primary",
-  size = "md",
+  size = "sm",
   icon,
   iconPosition = "left",
   text,
@@ -73,7 +73,7 @@ const Chip: React.FC<ChipProps> = ({
 }) => {
   const variantStyles = CHIP_VARIANTS[variant];
   const classes = clsx(
-    "inline-flex items-center font-bold w-fit rounded-md",
+    "inline-flex items-center font-semibold w-fit rounded-lg",
     CHIP_SIZES[size],
     onClick && "cursor-pointer",
     className,
