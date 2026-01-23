@@ -10,10 +10,9 @@ type ChipVariant =
   | "secondary-light"
   | "tertiary"
   | "tertiary-light";
-type ChipSize =  "sm" | "md" | "lg";
+type ChipSize = "sm" | "md" | "lg";
 
 export interface ChipProps {
-  onClick?: () => void;
   className?: string;
   variant?: ChipVariant;
   size?: ChipSize;
@@ -69,14 +68,12 @@ const Chip: React.FC<ChipProps> = ({
   icon,
   iconPosition = "left",
   text,
-  onClick,
   ...rest
 }) => {
   const variantStyles = CHIP_VARIANTS[variant];
   const classes = clsx(
     "inline-flex items-center font-semibold w-fit rounded-lg",
     CHIP_SIZES[size],
-    onClick && "cursor-pointer",
     className,
   );
 
@@ -93,34 +90,17 @@ const Chip: React.FC<ChipProps> = ({
   );
 
   return (
-    <>
-      {onClick ? (
-        <button
-          {...rest}
-          onClick={onClick}
-          className={classes}
-          style={{
-            backgroundColor: variantStyles.bg,
-            color: variantStyles.text,
-            border: variantStyles.border,
-          }}
-        >
-          {childComponent}
-        </button>
-      ) : (
-        <div
-          {...rest}
-          className={classes}
-          style={{
-            backgroundColor: variantStyles.bg,
-            color: variantStyles.text,
-            border: variantStyles.border,
-          }}
-        >
-          {childComponent}
-        </div>
-      )}
-    </>
+    <div
+      {...rest}
+      className={classes}
+      style={{
+        backgroundColor: variantStyles.bg,
+        color: variantStyles.text,
+        border: variantStyles.border,
+      }}
+    >
+      {childComponent}
+    </div>
   );
 };
 

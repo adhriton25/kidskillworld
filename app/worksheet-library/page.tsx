@@ -5,6 +5,7 @@ import { PdfCard } from "@/components/common/PDF/PdfCard";
 import { Pagination } from "@/components/Base/Pagination";
 import { getAvailableSkillsAction, getWorksheetsAction } from "../actions/worksheets";
 import Chip from "@/components/Base/Chip";
+import { Button } from "@/components/Base/Button";
 
 const SUBJECTS = [
   "Math",
@@ -150,13 +151,19 @@ export default function WorkSheetLibrary() {
           {(selectedSubject || selectedGrade || selectedSkill) && (
             <div className="flex flex-wrap items-center gap-2 mb-8">
               {selectedSubject && (
-                <Chip text={selectedSubject} variant="primary" onClick={() => removeFilter("subject")} />
+                <Button variant="primary" onClick={() => removeFilter("subject")} >
+                  {selectedSubject}
+                </Button>
               )}
               {selectedGrade && (
-                <Chip text={selectedGrade} variant="primary" onClick={() => removeFilter("grade")} />
+                <Button  variant="primary" onClick={() => removeFilter("grade")} >
+                  {selectedGrade}
+                </Button>
               )}
               {selectedSkill && (
-                <Chip text={selectedSkill} variant="primary" onClick={() => removeFilter("skill")} />
+                <Button variant="primary" onClick={() => removeFilter("skill")} >
+                  {selectedSkill}
+                </Button>
               )}
               <button
                 onClick={() => {
