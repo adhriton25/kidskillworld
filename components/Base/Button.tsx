@@ -40,7 +40,7 @@ const VARIANTS = {
     hover: "hover:bg-[var(--ksw-color-action-primary-active)]",
   },
   secondary: {
-    bg: "bg-transparent",
+    bg: "bg-[var(--ksw-color-action-secondary-base)] ",
     text: "text-[var(--ksw-color-action-secondary-default)]",
     linkText: "text-[var(--ksw-color-action-secondary-default)]",
     hover: "hover:bg-[var(--ksw-color-action-secondary-active)]",

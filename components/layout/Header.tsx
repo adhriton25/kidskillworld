@@ -7,6 +7,7 @@ import { MobileMenu } from "./MobileMenu";
 import { HEADER_TABS } from "@/Constant/header-tab";
 import { NavTab } from "./NavTab";
 import Link from "next/link";
+import { Button } from "../Base/Button";
 
 export const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -45,12 +46,6 @@ export const Header = () => {
             {/* Search Bar */}
             <div className="relative ">
               {/* Mobile Menu Button */}
-              <button
-                className="bg-white p-2 rounded-full shadow hover:bg-gray-100 sm:hidden"
-                onClick={() => setMenuOpen(true)}
-              >
-                <Menu className="text-blue-600 w-6 h-6" />
-              </button>
               <input
                 type="text"
                 placeholder="Search lessons..."
@@ -60,14 +55,19 @@ export const Header = () => {
             </div>
 
             {/* Login Button */}
-            <button className="bg-white px-4 py-2 rounded-full shadow flex items-center gap-2 hover:bg-gray-100">
-              <User className="text-blue-600 w-5 h-5" />
-              <span className="text-blue-700 font-semibold text-lg hidden md:block">
-                Login
-              </span>
-            </button>
+            <Button variant="secondary" shape="rounded" leftIcon={<User />}>
+              Login
+            </Button>
           </div>
         </div>
+        {/*Mobile Menu Button */}
+        <Button
+          shape="rounded"
+          variant="secondary"
+          leftIcon={<Menu />}
+          className="rounded-full !p-3"
+          onClick={() => setMenuOpen(true)}
+        />
 
         {/* Mobile Search Bar */}
         {/* <div className="mt-3 px-2">
