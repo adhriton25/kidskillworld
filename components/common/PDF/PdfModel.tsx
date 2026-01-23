@@ -63,13 +63,11 @@ export const PdfModel = ({ isOpen, onClose, data }: PdfModelProps) => {
           <div className="flex gap-2">
             <Chip
               variant="primary"
-              size="sm"
               text={data.grade}
               className="uppercase"
             />
             <Chip
               variant="secondary-light"
-              size="sm"
               text={data.subject}
               className="uppercase"
             />
@@ -91,9 +89,8 @@ export const PdfModel = ({ isOpen, onClose, data }: PdfModelProps) => {
                 <Chip
                   key={i}
                   variant="secondary"
-                  size="sm"
                   text={skill.name}
-                ></Chip>
+                />
               ))}
             </div>
           </div>

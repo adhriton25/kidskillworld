@@ -40,7 +40,7 @@ export const PdfCard = ({
             <div className="absolute top-2 right-2 z-10">
               <Chip
                 variant="tertiary"
-                size="xs"
+                size="sm"
                 text="Interactive"
                 className="uppercase"
               />

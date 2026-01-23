@@ -10,7 +10,7 @@ type ChipVariant =
   | "secondary-light"
   | "tertiary"
   | "tertiary-light";
-type ChipSize = "xs" | "sm" | "md" | "lg";
+type ChipSize =  "sm" | "md" | "lg";
 
 export interface ChipProps {
   onClick?: () => void;
@@ -56,16 +56,16 @@ const CHIP_VARIANTS = {
 } as const;
 
 const CHIP_SIZES = {
-  xs: "text-[0.5625rem] px-3 py-0.5",
-  sm: "text-xs px-4 py-1",
-  md: "text-md px-4 py-2",
-  lg: "text-lg px-4 py-3",
+  sm: "text-[0.5625rem] px-3 py-0.5",
+  md: "text-xs px-4 py-1",
+  lg: "text-md px-4 py-2",
+  xl: "text-lg px-4 py-3",
 } as const;
 
 const Chip: React.FC<ChipProps> = ({
   className = "",
   variant = "primary",
-  size = "sm",
+  size = "md",
   icon,
   iconPosition = "left",
   text,
