@@ -59,9 +59,9 @@ const SHAPES = {
 } as const;
 
 const SIZES = {
-  sm: "px-3 py-1 h-8 text-[1rem]",
-  md: "px-6 py-3 h-12 text-[1.2rem]",
-  lg: "px-8 py-4 h-16 text-[2rem]",
+  sm: "px-3 py-1 h-8 text-sm",
+  md: "px-6 py-3 h-12 text-md",
+  lg: "px-8 py-4 h-16 text-lg",
 } as const;
 
 export const Button: React.FC<ButtonProps> = ({
@@ -88,7 +88,7 @@ export const Button: React.FC<ButtonProps> = ({
   const variantType = VARIANTS[variant];
 
   const classes = clsx(
-    "font-medium inline-flex items-center justify-center gap-2", 
+    "inline-flex items-center justify-center gap-2", 
     "whitespace-nowrap cursor-pointer font-bold transition duration-200 ease-in-out",
     SIZES[size],
     disabled && "opacity-50 pointer-events-none",
@@ -96,7 +96,7 @@ export const Button: React.FC<ButtonProps> = ({
     // Link button mode
     isLinkButton
       ? [
-          "bg-transparent underline underline-offset-4 shadow-none border-0",
+          "bg-transparent hover:underline underline-offset-4 shadow-none border-0",
           variantType.linkText,
         ]
       : [
@@ -137,7 +137,7 @@ export const Button: React.FC<ButtonProps> = ({
       ) : (
         <>
           {leftIcon && <span className="flex items-center">{leftIcon}</span>}
-          <span>{children}</span>
+          {children}
           {rightIcon && <span className="flex items-center">{rightIcon}</span>}
         </>
       )}

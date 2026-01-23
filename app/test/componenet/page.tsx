@@ -76,7 +76,7 @@ export default function ComponentGallery() {
         }}
       />
 
-      <div className="m-10 flex  gap-4">
+      <div className="m-10  gap-4">
         <Chip
           variant="primary"
           size="sm"

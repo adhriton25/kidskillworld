@@ -1,16 +1,16 @@
 // components/GradeCard.tsx
 "use client";
 import React, { useState } from "react";
-import {
-  ChevronDown,
-  ChevronRight,
-} from "lucide-react";
+import { ChevronDown, ChevronRight } from "lucide-react";
 import { GradeWithDetails } from "@/types/GradeWithDetails";
 
 import { getSubjectIcon } from "@/Constant/subjects";
+import { Button } from "../Base/Button";
 
 export const GradeCard = ({ grade }: { grade: GradeWithDetails }) => {
-  const [collapsedCategories, setCollapsedCategories] = useState<Record<string, boolean>>({});
+  const [collapsedCategories, setCollapsedCategories] = useState<
+    Record<string, boolean>
+  >({});
 
   const toggleCategory = (categoryKey: string) => {
     setCollapsedCategories((prev) => ({
@@ -55,29 +55,26 @@ export const GradeCard = ({ grade }: { grade: GradeWithDetails }) => {
 
       {/* Global Expand/Collapse */}
       <div className="flex justify-between px-6 pt-4">
-        <button
-          onClick={expandAll}
-          className="text-blue-700 font-semibold hover:underline"
-        >
+        <Button isLinkButton onClick={expandAll}>
           Expand All
-        </button>
-        <button
-          onClick={collapseAll}
-          className="text-blue-700 font-semibold hover:underline"
-        >
+        </Button>
+        <Button isLinkButton onClick={collapseAll}>
           Collapse All
-        </button>
+        </Button>
       </div>
 
       <div className="p-6 space-y-8">
         {Object.entries(subjectsInGrade).map(([subjectName, skills]) => {
           // Group skills by category
-          const categories = skills.reduce((acc, skill) => {
-            const categoryName = skill.category.name;
-            if (!acc[categoryName]) acc[categoryName] = [];
-            acc[categoryName].push(skill);
-            return acc;
-          }, {} as Record<string, typeof skills>);
+          const categories = skills.reduce(
+            (acc, skill) => {
+              const categoryName = skill.category.name;
+              if (!acc[categoryName]) acc[categoryName] = [];
+              acc[categoryName].push(skill);
+              return acc;
+            },
+            {} as Record<string, typeof skills>,
+          );
 
           return (
             <div key={subjectName} className="space-y-6">
@@ -91,54 +88,64 @@ export const GradeCard = ({ grade }: { grade: GradeWithDetails }) => {
 
               {/* Categories */}
               <div className="transition-all duration-300 ease-in-out">
-                {Object.entries(categories).map(([categoryName, categorySkills]) => {
-                  const categoryKey = `${subjectName}-${categoryName}`;
-                  const isCategoryCollapsed = collapsedCategories[categoryKey] ?? true;
+                {Object.entries(categories).map(
+                  ([categoryName, categorySkills]) => {
+                    const categoryKey = `${subjectName}-${categoryName}`;
+                    const isCategoryCollapsed =
+                      collapsedCategories[categoryKey] ?? true;
 
-                  return (
-                    <div key={categoryName} className="pl-6 space-y-3">
-                      {/* Category Header with count */}
-                      <div className="flex items-center justify-between">
-                        <h4 className="text-green-800 font-bold text-lg">
-                          {categoryName.split(" - ").slice(2).join(" - ")}{" "}
-                          <span className="text-gray-600 text-sm font-medium">
-                            ({categorySkills.length} Skills)
-                          </span>
-                        </h4>
-
-                        <button
-                          onClick={() => toggleCategory(categoryKey)}
-                          className="p-1 rounded hover:bg-gray-200"
-                        >
-                          {isCategoryCollapsed ? (
-                            <ChevronRight className="w-5 h-5 text-gray-700" />
-                          ) : (
-                            <ChevronDown className="w-5 h-5 text-gray-700" />
-                          )}
-                        </button>
+                    return (
+                      <div key={categoryName} className="pl-6">
+                        {/* Category Header with count */}
+                        <div className="flex items-center justify-between">
+                          <h4 className="text-green-800 font-bold text-lg">
+                            {categoryName.split(" - ").slice(2).join(" - ")}{" "}
+                            <span className="text-gray-600 text-sm font-medium">
+                              ({categorySkills.length} Skills)
+                            </span>
+                          </h4>
+                          <Button
+                            isLinkButton
+                            variant="secondary"
+                            onClick={() => toggleCategory(categoryKey)}
+                            leftIcon={
+                              isCategoryCollapsed ? (
+                                <ChevronRight />
+                              ) : (
+                                <ChevronDown />
+                              )
+                            }
+                          />
+                        </div>
+                        {/* Skills */}
+                        {!isCategoryCollapsed && (
+                          <div className="flex flex-col gap-2 my-3">
+                            {categorySkills.map((skill) => (
+                              <div
+                                key={skill.id}
+                                className="flex justify-between items-center group pl-1"
+                              >
+                                <Button
+                                  isLinkButton
+                                  href={`/learning?grade=${grade.id}&subject=${skill.subject.id}`}
+                                  size="sm"
+                                >
+                                  {skill.name}
+                                </Button>
+                                <Button
+                                  size="sm"
+                                  href={`/learning?grade=${grade.id}&subject=${skill.subject.id}`}
+                                >
+                                  Practice: {skill._count.topics}
+                                </Button>
+                              </div>
+                            ))}
+                          </div>
+                        )}
                       </div>
-
-                      {/* Skills */}
-                      {!isCategoryCollapsed && (
-                        <ul className=" transition-all ease-in-out my-6">
-                          {categorySkills.map((skill) => (
-                            <li
-                              key={skill.id}
-                              className="flex justify-between items-center group pl-6"
-                            >
-                              <span className="text-gray-800 text-lg font-medium group-hover:text-blue-600 cursor-pointer">
-                                {skill.name}
-                              </span>
-                              <span className="bg-blue-600 text-white text-xs px-3 py-1 rounded-md font-bold">
-                                Topics: {skill._count.topics}
-                              </span>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </div>
-                  );
-                })}
+                    );
+                  },
+                )}
               </div>
             </div>
           );
