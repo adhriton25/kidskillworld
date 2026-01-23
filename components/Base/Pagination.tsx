@@ -54,6 +54,8 @@ export const Pagination = ({
               onClick={() => onPageChange(pageNum)}
               isLinkButton={currentPage === pageNum ?  false: true}
               variant="primary" 
+              className="!px-5"
+              showUnderline
             >
               {pageNum}
             </Button>

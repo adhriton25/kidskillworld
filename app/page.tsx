@@ -19,7 +19,7 @@ export default async function Learning() {
     <div >
       <h1 className="text-4xl font-bold text-center mb-12 text-gray-900">Curriculum by Grade</h1>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+      <div className="flex flex-wrap gap-8 max-w-7xl mx-auto justify-center">
         {grades.map((grade) => (
           <GradeCard key={grade.id} grade={grade} />
         ))}

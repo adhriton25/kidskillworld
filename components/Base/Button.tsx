@@ -96,7 +96,7 @@ export const Button: React.FC<ButtonProps> = ({
     // Link button mode
     isLinkButton
       ? [
-          "bg-transparent hover:underline underline-offset-4 shadow-none border-0 !p-0",
+          "bg-transparent hover:underline underline-offset-4 shadow-none border-0 !p-0 w-fit h-fit",
           variantType.linkText,
         ]
       : [
