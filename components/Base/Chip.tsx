@@ -10,7 +10,7 @@ type ChipVariant =
   | "secondary-light"
   | "tertiary"
   | "tertiary-light";
-type ChipSize = "sm" | "md" | "lg";
+type ChipSize = "xs" | "sm" | "md" | "lg";
 
 export interface ChipProps {
   onClick?: () => void;
@@ -45,7 +45,7 @@ const CHIP_VARIANTS = {
   },
   tertiary: {
     bg: "var(--ksw-color-action-tertiary-base)",
-    text: "var(--ksw-color-action-tertiary-default)",
+    text: "var(--ksw-color-action-tertiary-active)",
     border: "none",
   },
   "tertiary-light": {
@@ -56,6 +56,7 @@ const CHIP_VARIANTS = {
 } as const;
 
 const CHIP_SIZES = {
+  xs: "text-[0.5625rem] px-3 py-0.5",
   sm: "text-xs px-4 py-1",
   md: "text-md px-4 py-2",
   lg: "text-lg px-4 py-3",

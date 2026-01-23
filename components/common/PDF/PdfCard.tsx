@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { ChevronRight } from "lucide-react";
 import { PdfModel } from "./PdfModel";
+import Chip from "@/components/Base/Chip";
 
 export interface PdfCardProps {
   id: number;
@@ -37,9 +38,12 @@ export const PdfCard = ({
         <div className="relative aspect-[3/2] bg-gray-50 overflow-hidden border-b border-gray-50">
           {isInteractive && (
             <div className="absolute top-2 right-2 z-10">
-              <span className="bg-[#FFC107] text-[9px] font-bold px-2 py-1 rounded-md uppercase shadow-sm">
-                Interactive
-              </span>
+              <Chip
+                variant="tertiary"
+                size="xs"
+                text="Interactive"
+                className="uppercase"
+              />
             </div>
           )}
           <iframe

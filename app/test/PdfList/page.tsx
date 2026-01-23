@@ -82,7 +82,7 @@ const sampleResources = [
 
 export default function ResourceGallery() {
   return (
-    <section className="min-h-screen bg-slate-50 p-8 md:p-16">
+    <section className="min-h-screen bg-slate-50 p-8">
       <div className="max-w-7xl mx-auto">
         <header className="mb-12">
           <h1 className="text-4xl font-serif font-bold text-slate-900 mb-2">

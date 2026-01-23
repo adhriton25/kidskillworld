@@ -20,15 +20,6 @@ export const Header = () => {
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
           {/* Left: Menu (mobile) + Logo + Mascot */}
           <div className="flex items-center gap-4">
-            {/* Mobile Menu Button */}
-            <button
-              className="bg-white p-2 rounded-full shadow hover:bg-gray-100 sm:hidden"
-              onClick={() => setMenuOpen(true)}
-            >
-              <Menu className="text-blue-600 w-6 h-6" />
-            </button>
-
-            {/* Mascot + Logo */}
             <Link href="/" className="flex items-center gap-2 cursor-pointer">
               <AppIcon />
               <h1 className="text-white text-2xl font-bold tracking-wide">
@@ -52,7 +43,14 @@ export const Header = () => {
           {/* Right: Search + Login */}
           <div className="flex items-center gap-4">
             {/* Search Bar */}
-            <div className="relative hidden sm:block">
+            <div className="relative ">
+              {/* Mobile Menu Button */}
+              <button
+                className="bg-white p-2 rounded-full shadow hover:bg-gray-100 sm:hidden"
+                onClick={() => setMenuOpen(true)}
+              >
+                <Menu className="text-blue-600 w-6 h-6" />
+              </button>
               <input
                 type="text"
                 placeholder="Search lessons..."
@@ -64,13 +62,15 @@ export const Header = () => {
             {/* Login Button */}
             <button className="bg-white px-4 py-2 rounded-full shadow flex items-center gap-2 hover:bg-gray-100">
               <User className="text-blue-600 w-5 h-5" />
-              <span className="text-blue-700 font-semibold text-lg">Login</span>
+              <span className="text-blue-700 font-semibold text-lg hidden md:block">
+                Login
+              </span>
             </button>
           </div>
         </div>
 
         {/* Mobile Search Bar */}
-        <div className="sm:hidden mt-3 px-2">
+        {/* <div className="mt-3 px-2">
           <div className="relative">
             <input
               type="text"
@@ -79,7 +79,7 @@ export const Header = () => {
             />
             <Search className="absolute left-3 top-2.5 text-gray-500 w-5 h-5" />
           </div>
-        </div>
+        </div> */}
       </header>
     </>
   );
