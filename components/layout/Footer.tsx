@@ -2,7 +2,7 @@ import React from "react";
 
 export const Footer = () => {
   return (
-    <footer className="w-full bg-[var(--ksw-color-action-primary-default)] py-3 mt-4">
+    <footer className="w-full bg-[var(--ksw-color-action-primary-default)] py-3 ">
       <div className="mx-auto text-center text-white space-y-2">
         <h3 className="text-xl font-bold">{process.env.NEXT_PUBLIC_BRAND_NAME}</h3>
         <p className="text-white/80">Learning made fun for every child</p>

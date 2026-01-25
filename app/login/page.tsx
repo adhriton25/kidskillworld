@@ -29,7 +29,12 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="max-w-sm mx-auto mt-20 p-6 rounded-xl shadow-lg bg-white">
+    <div className="min-h-[calc(100vh-190px)] pt-8 w-full flex items-center justify-center bg-cover bg-center bg-no-repeat"
+     style={{ backgroundImage: "url('/bg-login1.png')" }}>
+    <div
+      className="bg-white/90 backdrop-blur-sm p-8 rounded-2xl shadow-xl"
+     
+    >
       <h1 className="text-2xl font-bold mb-4 text-center">Log In</h1>
 
       <form onSubmit={handleLogin} className="space-y-4">
@@ -52,7 +57,9 @@ export default function LoginPage() {
         />
 
         {error && <p className="text-red-500 text-sm">{error}</p>}
-        <Button type="submit" className="w-full ">Log In</Button>
+        <Button type="submit" className="w-full ">
+          Log In
+        </Button>
       </form>
 
       <div className="flex justify-between mt-4 text-sm">
@@ -63,6 +70,7 @@ export default function LoginPage() {
           Sign Up
         </Button>
       </div>
+    </div>
     </div>
   );
 }

@@ -18,7 +18,7 @@ export default function RootLayout({
       <body className="bg-gray-50">
         <Header />
         <SubjectTabsWrapper />
-        <main className="pt-4 px-3 md:px-0">{children}</main>
+        <main className="px-2 md:px-0">{children}</main>
         <Footer />
       </body>
     </html>
