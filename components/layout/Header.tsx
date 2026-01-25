@@ -17,7 +17,7 @@ export const Header = () => {
       {/* Mobile Slide-Out Menu */}
       <MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} />
 
-      <header className="w-full bg-blue-600 py-3 px-4 shadow-md sticky top-0 z-50">
+      <header className="w-full bg-[var(--ksw-color-action-primary-default)] py-3 px-4 shadow-md sticky top-0 z-50">
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
           {/* Left: Menu (mobile) + Logo + Mascot */}
           <div className="flex items-center gap-4">
