@@ -29,48 +29,47 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-[calc(100vh-190px)] pt-8 w-full flex items-center justify-center bg-cover bg-center bg-no-repeat"
-     style={{ backgroundImage: "url('/bg-login1.png')" }}>
     <div
-      className="bg-white/90 backdrop-blur-sm p-8 rounded-2xl shadow-xl"
-     
+      className="min-h-[calc(100vh-190px)] p-2 md:p-0 flex items-center justify-center bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: "url('/login-bg.png')" }}
     >
-      <h1 className="text-2xl font-bold mb-4 text-center">Log In</h1>
+      <div className="bg-white/87 p-8 rounded-2xl shadow-xl">
+        <h1 className="text-2xl font-bold mb-4 text-center">Log In</h1>
 
-      <form onSubmit={handleLogin} className="space-y-4">
-        <input
-          type="email"
-          placeholder="Email"
-          className="w-full p-3 border rounded-lg"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
+        <form onSubmit={handleLogin} className="space-y-4">
+          <input
+            type="email"
+            placeholder="Email"
+            className="w-full p-3 border rounded-lg"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
 
-        <input
-          type="password"
-          placeholder="Password"
-          className="w-full p-3 border rounded-lg"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+          <input
+            type="password"
+            placeholder="Password"
+            className="w-full p-3 border rounded-lg"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
 
-        {error && <p className="text-red-500 text-sm">{error}</p>}
-        <Button type="submit" className="w-full ">
-          Log In
-        </Button>
-      </form>
+          {error && <p className="text-red-500 text-sm">{error}</p>}
+          <Button type="submit" className="w-full ">
+            Log In
+          </Button>
+        </form>
 
-      <div className="flex justify-between mt-4 text-sm">
-        <Button isLinkButton href="/forgot-password">
-          Forgot Password
-        </Button>
-        <Button isLinkButton href="/signup">
-          Sign Up
-        </Button>
+        <div className="flex justify-between mt-4 text-sm">
+          <Button isLinkButton href="/forgot-password">
+            Forgot Password
+          </Button>
+          <Button isLinkButton href="/signup">
+            Sign Up
+          </Button>
+        </div>
       </div>
-    </div>
     </div>
   );
 }
