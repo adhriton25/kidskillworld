@@ -24,7 +24,7 @@ export const Header = () => {
             <Link href="/" className="flex items-center gap-2 cursor-pointer">
               <AppIcon />
               <h1 className="text-white text-xl md:text-2xl font-bold tracking-wide">
-                KidSkillWorld
+               {process.env.NEXT_PUBLIC_BRAND_NAME}
               </h1>
             </Link>
           </div>

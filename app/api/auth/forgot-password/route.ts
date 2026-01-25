@@ -8,7 +8,6 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req: Request) {
   const { email } = await req.json();
-
   const user = await prisma.user.findUnique({ where: { email } });
   
   // Security Tip: We still generate the token flow to prevent timing attacks
@@ -30,7 +29,7 @@ export async function POST(req: Request) {
   // SEND THE EMAIL
   try {
     await resend.emails.send({
-      from: "Acme <onboarding@resend.dev>", // Replace with your verified domain
+      from: `${process.env.NEXT_PUBLIC_BRAND_NAME} <security@${process.env.DOMAIN_NAME}>`,
       to: [email],
       subject: "Reset your password",
       react: ResetPasswordEmail({ token }),

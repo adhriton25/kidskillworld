@@ -4,7 +4,7 @@ import { Footer } from "@/components/layout/Footer";
 import { SubjectTabsWrapper } from "@/components/layout/SubjectTabsWrapper";
 
 export const metadata = {
-  title: "KidSkillWorld",
+  title: `${process.env.NEXT_PUBLIC_BRAND_NAME}`,
   description: "Kid-friendly learning platform",
 };
 

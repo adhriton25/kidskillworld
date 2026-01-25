@@ -5,7 +5,7 @@ export const AppIcon = () => {
     <div className="w-12 h-12 md:w-14 md:h-14 rounded-full overflow-hidden shadow flex items-center justify-center bg-white">
       <Image
         src="/kidskillworld-Icon.png"
-        alt="KidSkillWorld Icon"
+        alt={`${process.env.NEXT_PUBLIC_BRAND_NAME} Icon`}
         width={60}
         height={60}
         priority
