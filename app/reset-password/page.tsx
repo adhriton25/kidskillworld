@@ -52,12 +52,9 @@ function ResetPasswordForm() {
         <p className="text-slate-500 mb-8">
           You can now log in with your new password.
         </p>
-        <button
-          onClick={() => router.push("/login")}
-          className="w-full bg-indigo-600 text-white font-bold py-4 rounded-2xl hover:bg-indigo-700 transition-all"
-        >
+        <Button onClick={() => router.push("/login")} className="w-full">
           Go to Login
-        </button>
+        </Button>
       </div>
     );
   }
@@ -92,13 +89,13 @@ function ResetPasswordForm() {
                 placeholder="••••••••"
                 className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
               />
-              <button
+              <Button
                 type="button"
+                isLinkButton
                 onClick={() => setShowPass(!showPass)}
+                leftIcon={showPass ? <EyeOff /> : <Eye />}
                 className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400"
-              >
-                {showPass ? <EyeOff size={18} /> : <Eye size={18} />}
-              </button>
+              />
             </div>
             {errors.password && (
               <p className="text-red-500 text-xs mt-1">
