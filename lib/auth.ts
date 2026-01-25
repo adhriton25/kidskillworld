@@ -32,7 +32,6 @@ export const authOptions: NextAuthOptions = {
         return {
           id: user.id,
           email: user.email,
-          isSubscribed: user.isSubscribed,
         };
       },
     }),
@@ -43,7 +42,6 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.id = user.id;
         token.email = user.email;
-        token.isSubscribed = user.isSubscribed;
       }
       return token;
     },
@@ -52,7 +50,6 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         session.user.id = token.id;
         session.user.email = token.email!;
-        session.user.isSubscribed = token.isSubscribed;
       }
       return session;
     },

@@ -16,6 +16,7 @@ model User {
   email        String   @unique
   name    String
   passwordHash String?  // nullable for OAuth users in future
+  isSubscribed  Boolean   @default(false)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
