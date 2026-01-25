@@ -7,6 +7,8 @@ type ButtonMode = "button" | "loading";
 type ButtonSize = "sm" | "md" | "lg";
 
 interface ButtonProps {
+  // Fixed type to strictly allow button types
+  type?: "button" | "submit" | "reset"; 
   mode?: ButtonMode;
   variant?: ButtonVariant;
   shape?: ButtonShape;
@@ -15,23 +17,18 @@ interface ButtonProps {
   showUnderline?: boolean;
   className?: string;
   children?: React.ReactNode;
-
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
-
   href?: string;
   target?: "_self" | "_blank";
   isLinkButton?: boolean;
-
   loadingText?: string;
   spinnerSize?: number;
   spinnerColor?: string;
-
   onClick?: (e: any) => void;
   onKeyDown?: (e: any) => void;
 }
 
-// Variant tokens
 const VARIANTS = {
   primary: {
     bg: "bg-[var(--ksw-color-action-primary-default)]",
@@ -65,6 +62,7 @@ const SIZES = {
 } as const;
 
 export const Button: React.FC<ButtonProps> = ({
+  type = "button",
   mode = "button",
   variant = "primary",
   shape = "square",
@@ -88,48 +86,41 @@ export const Button: React.FC<ButtonProps> = ({
   const variantType = VARIANTS[variant];
 
   const classes = clsx(
-    "inline-flex items-center justify-center gap-2", 
+    "inline-flex items-center justify-center gap-2",
     "whitespace-nowrap cursor-pointer font-bold transition duration-200 ease-in-out",
     SIZES[size],
-    disabled && "opacity-50 pointer-events-none",
+   disabled && "opacity-50 pointer-events-none",
     showUnderline && "underline underline-offset-4",
     // Link button mode
-    isLinkButton
+        isLinkButton
       ? [
-          "bg-transparent hover:underline underline-offset-4 shadow-none border-0 !p-0 w-fit h-fit",
-          variantType.linkText,
-        ]
+        "bg-transparent hover:underline underline-offset-4 shadow-none border-0 !p-0 w-fit h-fit",
+        variantType.linkText,
+      ]
       : [
-          variantType.bg,
-          variantType.text,
-          variantType.hover,
-          SHAPES[shape],
-          variant === "secondary" ? "border-2 " : "border-0",
-          "shadow-sm"
-        ],
+        variantType.bg, 
+        variantType.text, 
+        variantType.hover, 
+        SHAPES[shape], 
+        variant === "secondary" ? "border-2 " : "border-0",
+        "shadow-sm",
+      ],
     className,
   );
 
-  return (
-    <a
-      tabIndex={0}
-      href={href}
-      target={target}
-      onClick={onClick}
-      onKeyDown={onKeyDown}
-      className={classes}
-    >
+  // Content shared by both <a> and <button>
+  const content = (
+    <>
       {isLoading ? (
         <>
           <span
-            className="flex items-center justify-center"
+            className="flex items-center justify-center animate-spin"
             style={{
               width: spinnerSize,
               height: spinnerSize,
               border: "3px solid rgba(255,255,255,0.4)",
               borderTopColor: spinnerColor,
               borderRadius: "50%",
-              animation: "spin 0.8s linear infinite",
             }}
           />
           <span>{loadingText}</span>
@@ -148,6 +139,28 @@ export const Button: React.FC<ButtonProps> = ({
           to { transform: rotate(360deg); }
         }
       `}</style>
-    </a>
+    </>
+  );
+
+  // If href exists, render as Link/Anchor
+  if (href) {
+    return (
+      <a href={href} target={target} onClick={onClick} onKeyDown={onKeyDown} className={classes}>
+        {content}
+      </a>
+    );
+  }
+
+  // Otherwise render as a Button (Form Submit capable)
+  return (
+    <button
+      type={type}
+      disabled={disabled || isLoading}
+      onClick={onClick}
+      onKeyDown={onKeyDown}
+      className={classes}
+    >
+      {content}
+    </button>
   );
 };

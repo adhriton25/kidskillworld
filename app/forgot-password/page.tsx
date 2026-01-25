@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/Base/Button";
 import { useState } from "react";
 
 export default function ForgotPasswordPage() {
@@ -36,9 +37,9 @@ export default function ForgotPasswordPage() {
             required
           />
 
-          <button className="w-full bg-blue-600 text-white p-3 rounded-lg">
+          <Button type="submit" className="w-full">
             Send Reset Link
-          </button>
+          </Button>
         </form>
       )}
     </div>

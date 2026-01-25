@@ -3,6 +3,7 @@
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/Base/Button";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -51,15 +52,16 @@ export default function LoginPage() {
         />
 
         {error && <p className="text-red-500 text-sm">{error}</p>}
-
-        <button className="w-full bg-blue-600 text-white p-3 rounded-lg">
-          Log In
-        </button>
+        <Button type="submit" className="w-full ">Log In</Button>
       </form>
 
       <div className="flex justify-between mt-4 text-sm">
-        <a href="/forgot-password" className="text-blue-600">Forgot Password</a>
-        <a href="/signup" className="text-blue-600">Sign Up</a>
+        <Button isLinkButton href="/forgot-password">
+          Forgot Password
+        </Button>
+        <Button isLinkButton href="/signup">
+          Sign Up
+        </Button>
       </div>
     </div>
   );
