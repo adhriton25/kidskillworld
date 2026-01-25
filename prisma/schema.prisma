@@ -12,14 +12,24 @@ generator client {
 // 0. User (Authentication)
 // -----------------------------------------------------------------------------
 model User {
-  id            String    @id @default(cuid())
-  email         String    @unique
-  passwordHash  String?
-  isSubscribed  Boolean   @default(false)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name    String
+  passwordHash String?  // nullable for OAuth users in future
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
-  @@index([email])
+  // Relations
+  resetTokens PasswordResetToken[]
+}
+
+model PasswordResetToken {
+  token     String   @id
+  userId    String
+  expires   DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 // -----------------------------------------------------------------------------

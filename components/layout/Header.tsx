@@ -53,6 +53,7 @@ export const Header = () => {
               <Search className="absolute left-3 top-2.5 text-gray-500 w-5 h-5" />
             </div>
             <Button
+              href="/login"
               variant="secondary"
               leftIcon={<User />}
               className="px-[0.625rem] md:px-6 !text-[var(--ksw-color-action-primary-default)]"
@@ -61,17 +62,17 @@ export const Header = () => {
             </Button>
           </div>
         </div>
-       
+
         {/* Mobile menu Search Bar */}
         <div className="flex justify-between pt-2 md:hidden">
-         <Button
-          isLinkButton
-          shape="rounded"
-          variant="secondary"
-          leftIcon={<Menu size={30} />}
-          className="  !text-[var(--white)]"
-          onClick={() => setMenuOpen(true)}
-        />
+          <Button
+            isLinkButton
+            shape="rounded"
+            variant="secondary"
+            leftIcon={<Menu size={30} />}
+            className="  !text-[var(--white)]"
+            onClick={() => setMenuOpen(true)}
+          />
           <div className="relative">
             <input
               type="text"
