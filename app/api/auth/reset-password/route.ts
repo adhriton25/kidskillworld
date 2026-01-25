@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 export async function POST(req: Request) {
   const { token, password } = await req.json();
 
-  const record = await prisma.passwordResetToken.findUnique({
+  const record = await prisma.PasswordResetToken.findUnique({
     where: { token },
   });
 
@@ -20,7 +20,7 @@ export async function POST(req: Request) {
     data: { passwordHash },
   });
 
-  await prisma.passwordResetToken.delete({
+  await prisma.PasswordResetToken.delete({
     where: { token },
   });
 
