@@ -4,6 +4,7 @@ import crypto from "crypto";
 import { Resend } from "resend";
 import { ResetPasswordEmail } from "@/components/emailsTemplate/ResetPassword";
 
+
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req: Request) {

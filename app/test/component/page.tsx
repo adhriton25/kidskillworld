@@ -1,12 +1,59 @@
 "use client";
 import { Button } from "@/components/base/button";
 import Chip from "@/components/base/chip";
+import Input from "@/components/base/Input";
 import { Pagination } from "@/components/base/pagination";
-import { FlaskRound, FlipHorizontal } from "lucide-react";
+import { FlaskRound, FlipHorizontal, SearchIcon } from "lucide-react";
 
 export default function ComponentGallery() {
   return (
     <>
+      <div className="m-10 flex  gap-4">
+        <Input
+          label="Email Address"
+          type="email"
+          placeholder="name@example.com"
+          name={"name is"}
+          leftIcon={<FlaskRound />}
+          helperText="helper test"
+        />
+        <Input
+          label="Password"
+          type="password"
+          placeholder="Enter your password"
+          error={"error in password"} // Pass your error state here
+          name={" name is"}
+        />
+        <Input
+          placeholder="Search lessons..."
+          leftIcon={<SearchIcon size={18} />}
+          className="bg-gray-100 border-none"
+          name={""}
+        />
+        <Input
+          label="Student Name"
+          name="studentName"
+          placeholder="Enter full name"
+          required
+        />
+
+        <Input
+          type="email"
+          name="parentEmail"
+          label="Parent Email"
+          placeholder="example@domain.com"
+          error="Invalid email format"
+        />
+
+        <Input
+          type="textarea"
+          name="feedback"
+          label="Feedback"
+          placeholder="Write your thoughts..."
+          helperText="Max 500 characters"
+          rounded={false}
+        />
+      </div>
       <div className="m-10 flex  gap-4">
         <Button
           variant="primary"
@@ -45,7 +92,7 @@ export default function ComponentGallery() {
           isLinkButton
           leftIcon={<FlaskRound />}
         >
-          Primary  large underline Button
+          Primary large underline Button
         </Button>
         <Button
           variant="secondary"
