@@ -6,7 +6,7 @@ import { InputHTMLAttributes, TextareaHTMLAttributes } from "react";
 type InputProps = {
   label?: string;
   type?: "text" | "email" | "password" | "number" | "search";
-  name: string;
+  name?: string;
   value?: string;
   onChange?: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -41,7 +41,7 @@ export default function Input({
   ...rest
 }: InputProps) {
   const baseStyles =
-    "px-3 py-2 text-base bg-white border outline-none transition-all focus:ring-2 focus:ring-[var(--ksw-color-action-primary-default)]";
+    "w-full px-3 py-2 text-base bg-white border outline-none transition-all focus:ring-2 focus:ring-[var(--ksw-color-action-primary-default)]";
   const shape = rounded ? "rounded-full" : "rounded-md";
   const errorStyles = error ? "border-red-500" : "border-gray-300";
   const disabledStyles = disabled ? "opacity-50 cursor-not-allowed" : "";
