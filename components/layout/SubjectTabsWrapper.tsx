@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { HEADER_TABS } from "@/Constant/header-tab";
+import { HEADER_TABS } from "@/constant/header-tab";
 import { SubjectTabs } from "./SubjectTabs";
 
 export const SubjectTabsWrapper = () => {

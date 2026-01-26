@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
-import { SUBJECT_LIST } from "@/Constant/subjects";
-import { Button } from "../Base/Button";
+import { SUBJECT_LIST } from "@/constant/subjects";
+import { Button } from "../base/button";
 
 export const SubjectTabs = () => {
   return (

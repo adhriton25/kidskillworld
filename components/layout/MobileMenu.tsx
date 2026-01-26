@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
 import { X } from "lucide-react";
-import { Button } from "../Base/Button";
-import { HEADER_TABS } from "@/Constant/header-tab";
+import { Button } from "../base/button";
+import { HEADER_TABS } from "@/constant/header-tab";
 
 export const MobileMenu = ({
   open,

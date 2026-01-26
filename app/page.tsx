@@ -1,6 +1,6 @@
 // app/grades/page.tsx
 
-import { GradeCard } from "@/components/common/GradeCard";
+import { GradeCard } from "@/components/common/gradeCard";
 import { GradeWithDetails } from "@/types/GradeWithDetails";
 
 

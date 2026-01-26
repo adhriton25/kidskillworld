@@ -1,14 +1,14 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { PdfCard } from "@/components/common/PDF/PdfCard";
-import { Pagination } from "@/components/Base/Pagination";
+import { PdfCard } from "@/components/common/pdf/PdfCard";
+import { Pagination } from "@/components/base/pagination";
 import {
   getAvailableSkillsAction,
   getWorksheetsAction,
 } from "../actions/worksheets";
-import Chip from "@/components/Base/Chip";
-import { Button } from "@/components/Base/Button";
+import Chip from "@/components/base/chip";
+import { Button } from "@/components/base/button";
 
 const SUBJECTS = [
   "Math",

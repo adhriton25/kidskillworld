@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { ChevronRight } from "lucide-react";
 import { PdfModel } from "./PdfModel";
-import Chip from "@/components/Base/Chip";
+import Chip from "@/components/base/chip";
 
 export interface PdfCardProps {
   id: number;

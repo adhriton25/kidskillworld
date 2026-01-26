@@ -1,5 +1,5 @@
 // components/modules/ResourceGallery.tsx
-import { PdfCard } from '@/components/common/PDF/PdfCard';
+import { PdfCard } from '@/components/common/pdf/PdfCard';
 import React from 'react';
     
 

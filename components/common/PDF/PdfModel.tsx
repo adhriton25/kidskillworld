@@ -2,8 +2,8 @@
 
 import React from "react";
 import { X, Printer, Download, Play } from "lucide-react";
-import { Button } from "@/components/Base/Button";
-import Chip from "@/components/Base/Chip";
+import { Button } from "@/components/base/button";
+import Chip from "@/components/base/chip";
 
 interface PdfModelProps {
   isOpen: boolean;

@@ -3,7 +3,7 @@
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/Base/Button";
+import { Button } from "@/components/base/button";
 
 export default function LoginPage() {
   const router = useRouter();

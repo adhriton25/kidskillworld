@@ -4,8 +4,8 @@ import React, { useState } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { GradeWithDetails } from "@/types/GradeWithDetails";
 
-import { getSubjectIcon } from "@/Constant/subjects";
-import { Button } from "../Base/Button";
+import { getSubjectIcon } from "@/constant/subjects";
+import { Button } from "../base/button";
 
 export const GradeCard = ({ grade }: { grade: GradeWithDetails }) => {
   const [collapsedCategories, setCollapsedCategories] = useState<

@@ -4,10 +4,10 @@ import React, { useState } from "react";
 import { Menu, Search, User } from "lucide-react";
 import { AppIcon } from "./AppIcon";
 import { MobileMenu } from "./MobileMenu";
-import { HEADER_TABS } from "@/Constant/header-tab";
+import { HEADER_TABS } from "@/constant/header-tab";
 import { NavTab } from "./NavTab";
 import Link from "next/link";
-import { Button } from "../Base/Button";
+import { Button } from "../base/button";
 
 export const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);

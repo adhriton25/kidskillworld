@@ -4,7 +4,7 @@ import React from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { getPaginationRange } from "@/lib/pagination-utils";
 import { cn } from "@/lib/utils";
-import { Button } from "./Button";
+import { Button } from "./button";
 
 interface PaginationProps {
   currentPage: number;

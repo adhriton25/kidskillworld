@@ -14,7 +14,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { SignUpInput, SignUpSchema } from "@/lib/schema";
-import { Button } from "@/components/Base/Button";
+import { Button } from "@/components/base/button";
 
 export default function SignUpForm() {
   const router = useRouter();

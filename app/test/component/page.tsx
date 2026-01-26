@@ -1,7 +1,7 @@
 "use client";
-import { Button } from "@/components/Base/Button";
-import Chip from "@/components/Base/Chip";
-import { Pagination } from "@/components/Base/Pagination";
+import { Button } from "@/components/base/button";
+import Chip from "@/components/base/chip";
+import { Pagination } from "@/components/base/pagination";
 import { FlaskRound, FlipHorizontal } from "lucide-react";
 
 export default function ComponentGallery() {
