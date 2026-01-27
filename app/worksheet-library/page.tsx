@@ -8,7 +8,7 @@ import {
   getWorksheetsAction,
 } from "../actions/worksheets";
 import Chip from "@/components/base/chip";
-import { Button } from "@/components/base/button";
+import { Button } from "@/components/base/Button";
 
 const SUBJECTS = [
   "Math",

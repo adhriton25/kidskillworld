@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/components/base/button";
+import { Button } from "@/components/base/Button";
 import Chip from "@/components/base/chip";
 import Input from "@/components/base/Input";
 import { Pagination } from "@/components/base/pagination";

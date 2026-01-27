@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Lock, Eye, EyeOff, CheckCircle2, Loader2 } from "lucide-react";
 import { ResetPasswordSchema } from "@/lib/schema";
-import { Button } from "@/components/base/button";
+import { Button } from "@/components/base/Button";
 
 // 1. Move the logic into a separate internal component
 function ResetPasswordForm() {

@@ -7,7 +7,9 @@ import { MobileMenu } from "./MobileMenu";
 import { HEADER_TABS } from "@/constant/header-tab";
 import { NavTab } from "./NavTab";
 import Link from "next/link";
-import { Button } from "../base/button";
+import { Button } from "../base/Button";
+
+
 
 export const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
