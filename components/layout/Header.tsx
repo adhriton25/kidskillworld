@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Menu, Search, User } from "lucide-react";
+import { Menu, Search } from "lucide-react";
 import { AppIcon } from "./AppIcon";
 import { MobileMenu } from "./MobileMenu";
 import { HEADER_TABS } from "@/constant/header-tab";
@@ -9,18 +9,20 @@ import { NavTab } from "./NavTab";
 import Link from "next/link";
 import { Button } from "../base/Button";
 import Input from "../base/Input";
+import AuthControl from "./AuthControl";
+import type { Session } from "next-auth"; 
 
-export const Header = () => {
+interface HeaderProps { session: Session | null; }
+
+export const Header = ({ session }: HeaderProps) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <>
-      {/* Mobile Slide-Out Menu */}
       <MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} />
 
       <header className="w-full bg-[var(--ksw-color-action-primary-default)] py-3 px-4 shadow-md sticky top-0 z-50">
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
-          {/* Left: Menu (mobile) + Logo + Mascot */}
           <div className="flex items-center gap-4">
             <Link href="/" className="flex items-center gap-2 cursor-pointer">
               <AppIcon />
@@ -30,7 +32,6 @@ export const Header = () => {
             </Link>
           </div>
 
-          {/* Center: Tab Menu (desktop only) */}
           <nav className="hidden md:flex gap-6">
             {HEADER_TABS.map((tab) => (
               <NavTab
@@ -42,10 +43,8 @@ export const Header = () => {
             ))}
           </nav>
 
-          {/* Right: Search + Login */}
           <div className="flex justify-between items-center gap-4">
-            {/* Search Bar */}
-            <div className=" hidden md:block">
+            <div className="hidden md:block">
               <Input
                 type="text"
                 bottomMargin={false}
@@ -54,25 +53,17 @@ export const Header = () => {
                 leftIcon={<Search />}
               />
             </div>
-            <Button
-              href="/login"
-              variant="secondary"
-              leftIcon={<User />}
-              className="px-[0.625rem] md:px-6 !text-[var(--ksw-color-action-primary-default)]"
-            >
-              <span className="hidden md:block">Login</span>
-            </Button>
+            <AuthControl user={session?.user || null} />
           </div>
         </div>
 
-        {/* Mobile menu Search Bar */}
         <div className="flex justify-between pt-2 md:hidden">
           <Button
             isLinkButton
             shape="rounded"
             variant="secondary"
             leftIcon={<Menu size={30} />}
-            className="  !text-[var(--white)]"
+            className="!text-[var(--white)]"
             onClick={() => setMenuOpen(true)}
           />
           <div className="relative">

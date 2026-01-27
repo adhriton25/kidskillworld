@@ -50,7 +50,7 @@ export const GradeCard = ({ grade }: { grade: GradeWithDetails }) => {
     <div className="w-full max-w-sm bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
       {/* Header */}
       <div className={`bg-[var(--grade-${grade.id})] py-4 text-center`}>
-        <h2 className="text-white text-3xl font-bold">{grade.name}</h2>
+        <h2 className="text-white text-2xl font-bold">{grade.name}</h2>
       </div>
 
       {/* Global Expand/Collapse */}
