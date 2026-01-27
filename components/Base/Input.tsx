@@ -21,13 +21,14 @@ interface InputProps  {
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   rounded?: boolean;
+  bottomMargin?: boolean;
   className?: string;
 }; 
 
 const SIZES = {
   sm: "py-1 text-sm",
-  md: "py-3 text-md",
-  lg: "py-4 text-lg",
+  md: "py-2 text-md",
+  lg: "py-3 text-lg",
 } as const;
 
 export default function Input({
@@ -45,6 +46,7 @@ export default function Input({
   leftIcon: LeftIcon,
   rightIcon: RightIcon,
   rounded = false,
+  bottomMargin= true,
   className,
   ...rest
 }: InputProps) {
@@ -64,7 +66,7 @@ export default function Input({
   );
 
   return (
-    <div className="mb-4">
+    <div className={bottomMargin? "mb-4": ""}>
       {label && (
         <label
           htmlFor={name}

@@ -56,9 +56,9 @@ const SHAPES = {
 } as const;
 
 const SIZES = {
-  sm: "px-3 py-1 h-8 text-sm",
-  md: "px-6 py-3 h-12 text-md",
-  lg: "px-8 py-4 h-16 text-lg",
+  sm: "px-3 py-1 text-sm",
+  md: "px-6 py-2 text-md",
+  lg: "px-8 py-3 text-lg",
 } as const;
 
 export const Button: React.FC<ButtonProps> = ({

@@ -8,6 +8,7 @@ import { HEADER_TABS } from "@/constant/header-tab";
 import { NavTab } from "./NavTab";
 import Link from "next/link";
 import { Button } from "../base/button";
+import Input from "../base/Input";
 
 export const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -24,7 +25,7 @@ export const Header = () => {
             <Link href="/" className="flex items-center gap-2 cursor-pointer">
               <AppIcon />
               <h1 className="text-white text-xl md:text-2xl font-bold tracking-wide">
-               {process.env.NEXT_PUBLIC_BRAND_NAME}
+                {process.env.NEXT_PUBLIC_BRAND_NAME}
               </h1>
             </Link>
           </div>
@@ -44,13 +45,14 @@ export const Header = () => {
           {/* Right: Search + Login */}
           <div className="flex justify-between items-center gap-4">
             {/* Search Bar */}
-            <div className="relative hidden md:block">
-              <input
+            <div className=" hidden md:block">
+              <Input
                 type="text"
+                bottomMargin={false}
+                rounded
                 placeholder="Search lessons..."
-                className="w-56 py-2 pl-10 pr-4 rounded-full text-lg shadow focus:outline-none bg-white"
+                leftIcon={<Search />}
               />
-              <Search className="absolute left-3 top-2.5 text-gray-500 w-5 h-5" />
             </div>
             <Button
               href="/login"
@@ -74,12 +76,13 @@ export const Header = () => {
             onClick={() => setMenuOpen(true)}
           />
           <div className="relative">
-            <input
+            <Input
               type="text"
+              rounded
+              bottomMargin={false}
               placeholder="Search lessons..."
-              className="w-full py-2 pl-10 pr-4 rounded-full text-lg shadow focus:outline-none bg-white"
+              leftIcon={<Search />}
             />
-            <Search className="absolute left-3 top-2.5 text-gray-500 w-5 h-5" />
           </div>
         </div>
       </header>
