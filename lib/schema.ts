@@ -25,4 +25,9 @@ export const ResetPasswordSchema = z
     path: ["confirmPassword"],
   });
 
+  export const ResetEmailSchema = z
+  .object({
+    email: z.string().email("Please enter a valid email address"),
+  });
+
 export type SignUpInput = z.infer<typeof SignUpSchema>;

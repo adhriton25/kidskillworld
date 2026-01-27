@@ -1,23 +1,31 @@
 "use client";
 
 import { Button } from "@/components/base/button";
+import Input from "@/components/base/Input";
+import { useForm } from "react-hook-form";
 import { Mail } from "lucide-react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
+import { ResetEmailSchema } from "@/lib/schema";
 
 export default function ForgotPasswordPage() {
-  const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-
+  async function onSubmit(data: any) {
     await fetch("/api/auth/forgot-password", {
       method: "POST",
-      body: JSON.stringify({ email }),
+      body: JSON.stringify({ email: data.email }),
     });
-
     setSent(true);
   }
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    resolver: zodResolver(ResetEmailSchema),
+  });
 
   return (
     <div className="max-w-sm mx-auto mt-20 p-6 rounded-xl shadow-lg bg-white">
@@ -32,23 +40,22 @@ export default function ForgotPasswordPage() {
           If this email exists, a reset link has been sent.
         </p>
       ) : (
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
-            Email Address
-          </label>
-          <div className="relative">
-            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="w-full pl-12 pr-4 py-4 bg-white border border-slate-200 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all placeholder:text-slate-400"
-              placeholder="Enter your email"
-            />
-          </div>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <Input
+            type="email"
+            label="Email Address"
+            {...register("email")}
+            leftIcon={<Mail />}
+            placeholder="Enter your email"
+            error={errors.email && errors.email.message}
+          />
 
-          <Button type="submit" className="w-full">
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={isSubmitting}
+            mode={isSubmitting ? "loading" : "button"}
+          >
             Send Reset Link
           </Button>
         </form>

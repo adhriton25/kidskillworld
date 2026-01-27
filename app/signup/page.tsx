@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { SignUpInput, SignUpSchema } from "@/lib/schema";
 import { Button } from "@/components/base/button";
+import Input from "@/components/base/Input";
 
 export default function SignUpForm() {
   const router = useRouter();
@@ -54,55 +55,29 @@ export default function SignUpForm() {
         <div className="bg-indigo-50 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6">
           <GraduationCap className="text-indigo-600 w-8 h-8" />
         </div>
-
         <h1 className="text-3xl font-bold text-slate-900 mb-2">
           Join the Fun!
         </h1>
         <p className="text-slate-500 mb-8">
           Create your account to start your learning journey.
         </p>
-
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 text-left">
           {/* Name Field */}
-          <div>
-            <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
-              Your Name
-            </label>
-            <div className="relative">
-              <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
-              <input
-                {...register("name")}
-                className="w-full pl-12 pr-4 py-4 bg-white border border-slate-200 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all placeholder:text-slate-400"
-                placeholder="What should we call you?"
-              />
-            </div>
-            {errors.name && (
-              <p className="text-red-500 text-xs mt-1 ml-2">
-                {errors.name.message}
-              </p>
-            )}
-          </div>
-
+          <Input
+            label="Your Name"
+            leftIcon={<User />}
+            {...register("name")}
+            placeholder="What should we call you?"
+            error={errors.name && errors.name.message}
+          />
           {/* Email Field */}
-          <div>
-            <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
-              Email Address
-            </label>
-            <div className="relative">
-              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
-              <input
-                {...register("email")}
-                className="w-full pl-12 pr-4 py-4 bg-white border border-slate-200 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all placeholder:text-slate-400"
-                placeholder="Enter your email"
-              />
-            </div>
-            {errors.email && (
-              <p className="text-red-500 text-xs mt-1 ml-2">
-                {errors.email.message}
-              </p>
-            )}
-          </div>
-
+          <Input
+            label="Email Address"
+            {...register("email")}
+            leftIcon={<Mail />}
+            placeholder="Enter your email"
+            error={errors.email && errors.email.message}
+          />
           {/* Grade Dropdown (New Mandatory Field) */}
           <div>
             <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
@@ -129,32 +104,23 @@ export default function SignUpForm() {
           </div>
 
           {/* Password Field */}
-          <div>
-            <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
-              Create Password
-            </label>
-            <div className="relative">
-              <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
-              <input
-                type={showPassword ? "text" : "password"}
-                {...register("password")}
-                className="w-full pl-12 pr-12 py-4 bg-white border border-slate-200 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all placeholder:text-slate-400"
-                placeholder="Make it strong!"
-              />
+          <Input
+            label=" Create Password"
+            type={showPassword ? "text" : "password"}
+            {...register("password")}
+            leftIcon={<Lock />}
+            placeholder="Make it strong!"
+            rightIcon={
               <Button
                 type="button"
                 isLinkButton
                 leftIcon={showPassword ? <EyeOff /> : <Eye />}
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
               />
-            </div>
-            {errors.password && (
-              <p className="text-red-500 text-xs mt-1 ml-2">
-                {errors.password.message}
-              </p>
-            )}
-          </div>
+            }
+            error={errors.password && errors.password.message}
+          />
+
           <Button
             type="submit"
             disabled={isSubmitting}
@@ -165,7 +131,6 @@ export default function SignUpForm() {
             Start Learning
           </Button>
         </form>
-
         <div className="mt-8 pt-6 border-t border-slate-100">
           <p className="text-slate-500 font-medium">
             Already have an account?{" "}

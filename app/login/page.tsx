@@ -15,7 +15,6 @@ export default function LoginPage() {
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
-
     const res = await signIn("credentials", {
       email,
       password,
@@ -26,7 +25,6 @@ export default function LoginPage() {
       setError("Invalid email or password");
       return;
     }
-
     router.push("/");
   }
 

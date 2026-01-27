@@ -4,9 +4,10 @@ import { Suspense, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSearchParams, useRouter } from "next/navigation";
-import { Lock, Eye, EyeOff, CheckCircle2, Loader2 } from "lucide-react";
+import { Lock, Eye, EyeOff, CheckCircle2, Loader2, Mail } from "lucide-react";
 import { ResetPasswordSchema } from "@/lib/schema";
 import { Button } from "@/components/base/button";
+import Input from "@/components/base/Input";
 
 // 1. Move the logic into a separate internal component
 function ResetPasswordForm() {
@@ -82,45 +83,36 @@ function ResetPasswordForm() {
             <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
               New Password
             </label>
-            <div className="relative">
-              <input
-                type={showPass ? "text" : "password"}
-                {...register("password")}
-                placeholder="••••••••"
-                className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
-              />
-              <Button
-                type="button"
-                isLinkButton
-                onClick={() => setShowPass(!showPass)}
-                leftIcon={showPass ? <EyeOff /> : <Eye />}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400"
-              />
-            </div>
-            {errors.password && (
-              <p className="text-red-500 text-xs mt-1">
-                {errors.password.message as string}
-              </p>
-            )}
+            <Input
+              type={showPass ? "text" : "password"}
+              {...register("password")}
+              placeholder="••••••••"
+              leftIcon={<Lock />}
+              rightIcon={
+                <Button
+                  type="button"
+                  isLinkButton
+                  onClick={() => setShowPass(!showPass)}
+                  rightIcon={showPass ? <EyeOff /> : <Eye />}
+                />
+              }
+              error={errors.password && (errors.password.message as string)}
+            />
           </div>
-
           <div>
-            <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
-              Confirm Password
-            </label>
-            <input
+            <Input
+              label="Confirm Password"
               type="password"
+              leftIcon={<Lock />}
               {...register("confirmPassword")}
               placeholder="••••••••"
-              className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
+              error={
+                errors.confirmPassword
+                  ? errors.confirmPassword.message
+                  : undefined
+              }
             />
-            {errors.confirmPassword && (
-              <p className="text-red-500 text-xs mt-1">
-                {errors.confirmPassword.message as string}
-              </p>
-            )}
           </div>
-
           <Button
             type="submit"
             disabled={status === "loading"}

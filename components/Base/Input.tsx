@@ -1,11 +1,13 @@
 "use client";
-
 import { cn } from "@/lib/utils";
-import { InputHTMLAttributes, TextareaHTMLAttributes } from "react";
 
-type InputProps = {
+type InputType = "text" | "email" | "password" | "number" | "search";
+type InputSize = "sm" | "md" | "lg";
+
+interface InputProps  {
   label?: string;
-  type?: "text" | "email" | "password" | "number" | "search";
+  type?: InputType;
+  size?: InputSize;
   name?: string;
   value?: string;
   onChange?: (
@@ -20,13 +22,19 @@ type InputProps = {
   rightIcon?: React.ReactNode;
   rounded?: boolean;
   className?: string;
-} & Omit<InputHTMLAttributes<HTMLInputElement>, "type"> &
-  Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "type">;
+}; 
+
+const SIZES = {
+  sm: "py-1 text-sm",
+  md: "py-3 text-md",
+  lg: "py-4 text-lg",
+} as const;
 
 export default function Input({
   label,
   type = "text",
   name,
+  size = "md",
   value,
   onChange,
   placeholder,
@@ -52,6 +60,7 @@ export default function Input({
     errorStyles,
     disabledStyles,
     className,
+    SIZES[size],
   );
 
   return (
