@@ -1,8 +1,8 @@
 "use client";
-import { Button } from "@/components/base/button";
-import Chip from "@/components/base/chip";
+import { Button } from "@/components/base/Button";
+import Chip from "@/components/base/Chip";
 import Input from "@/components/base/Input";
-import { Pagination } from "@/components/base/pagination";
+import { Pagination } from "@/components/base/Pagination";
 import { FlaskRound, FlipHorizontal, SearchIcon } from "lucide-react";
 
 export default function ComponentGallery() {
@@ -44,9 +44,7 @@ export default function ComponentGallery() {
           placeholder="example@domain.com"
           error="Invalid email format"
         />
-
         <Input
-          type="textarea"
           name="feedback"
           label="Feedback"
           placeholder="Write your thoughts..."

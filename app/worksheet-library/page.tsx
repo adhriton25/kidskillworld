@@ -2,13 +2,13 @@
 
 import React, { useState, useEffect } from "react";
 import { PdfCard } from "@/components/common/pdf/PdfCard";
-import { Pagination } from "@/components/base/pagination";
+import { Pagination } from "@/components/base/Pagination";
 import {
   getAvailableSkillsAction,
   getWorksheetsAction,
 } from "../actions/worksheets";
-import Chip from "@/components/base/chip";
-import { Button } from "@/components/base/button";
+import Chip from "@/components/base/Chip";
+import { Button } from "@/components/base/Button";
 
 const SUBJECTS = [
   "Math",

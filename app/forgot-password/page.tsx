@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/base/button";
+import { Button } from "@/components/base/Button";
 import Input from "@/components/base/Input";
 import { useForm } from "react-hook-form";
 import { Mail } from "lucide-react";

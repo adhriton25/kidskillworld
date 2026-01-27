@@ -3,7 +3,7 @@
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/base/button";
+import { Button } from "@/components/base/Button";
 import Input from "@/components/base/Input";
 import { Mail, Lock } from "lucide-react";
 
