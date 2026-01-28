@@ -12,16 +12,15 @@ generator client {
 // 0. User (Authentication)
 // -----------------------------------------------------------------------------
 model User {
-  id           String   @id @default(cuid())
-  email        String   @unique
-  name    String
-  passwordHash String?  // nullable for OAuth users in future
-  isSubscribed  Boolean   @default(false)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id            String   @id @default(cuid())
+  email         String   @unique
+  name          String
+  passwordHash  String?
+  isSubscribed  Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
-  // Relations
-  resetTokens PasswordResetToken[]
+  resetTokens   PasswordResetToken[]
 }
 
 model PasswordResetToken {
@@ -37,10 +36,10 @@ model PasswordResetToken {
 // 1. Grade
 // -----------------------------------------------------------------------------
 model Grade {
-  id         Int         @id @default(autoincrement())
-  name       String      @unique
+  id         Int      @id @default(autoincrement())
+  name       String   @unique
+
   skills     Skill[]
-  worksheets Worksheet[]
 
   @@index([name])
 }
@@ -49,10 +48,10 @@ model Grade {
 // 2. Subject
 // -----------------------------------------------------------------------------
 model Subject {
-  id         Int         @id @default(autoincrement())
-  name       String      @unique
-  skills     Skill[]
-  worksheets Worksheet[]
+  id         Int             @id @default(autoincrement())
+  name       String          @unique
+
+  categories SkillCategory[]
 
   @@index([name])
 }
@@ -61,91 +60,72 @@ model Subject {
 // 3. Skill Category
 // -----------------------------------------------------------------------------
 model SkillCategory {
-  id     Int     @id @default(autoincrement())
-  name   String  @unique
-  skills Skill[]
+  id        Int      @id @default(autoincrement())
+  name      String
+
+  subjectId Int
+  subject   Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  
+  skills    Skill[]
+
+  @@unique([name, subjectId])
+  @@index([subjectId])
 }
 
 // -----------------------------------------------------------------------------
 // 4. Skill
 // -----------------------------------------------------------------------------
 model Skill {
-  id              Int              @id @default(autoincrement())
-  name            String
-  description     String?
+  id          Int           @id @default(autoincrement())
+  name        String
+  description String?
 
-  gradeId         Int
-  subjectId       Int
-  categoryId      Int
+  gradeId     Int
+  categoryId  Int
 
-  grade           Grade            @relation(fields: [gradeId], references: [id])
-  subject         Subject          @relation(fields: [subjectId], references: [id])
-  category        SkillCategory    @relation(fields: [categoryId], references: [id])
+  grade       Grade         @relation(fields: [gradeId], references: [id], onDelete: Cascade)
+  category    SkillCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
-  topics          Topic[]
-  worksheetSkills WorksheetSkill[]
+  worksheetLinks WorksheetSkill[]
 
-  @@unique([name, gradeId, subjectId], name: "name_gradeId_subjectId")
-  @@index([gradeId, subjectId])
+  @@unique([name, gradeId, categoryId])
+  @@index([gradeId])
+  @@index([categoryId])
 }
 
 // -----------------------------------------------------------------------------
-// 5. Topic
-// -----------------------------------------------------------------------------
-model Topic {
-  id      Int             @id @default(autoincrement())
-  name    String
-  skillId Int
-
-  skill   Skill           @relation(fields: [skillId], references: [id])
-  papers  PracticePaper[]
-
-  @@unique([name, skillId])
-}
-
-// -----------------------------------------------------------------------------
-// 6. Practice Paper
-// -----------------------------------------------------------------------------
-model PracticePaper {
-  id      Int    @id @default(autoincrement())
-  title   String
-  pdfUrl  String
-  topicId Int
-
-  topic   Topic  @relation(fields: [topicId], references: [id])
-}
-
-// -----------------------------------------------------------------------------
-// 7. Worksheet
+// 5. Worksheet (Many-to-many with Skills)
 // -----------------------------------------------------------------------------
 model Worksheet {
-  id              Int              @id @default(autoincrement())
-  title           String
-  description     String
-  pdfUrl          String
-  gradeId         Int
-  subjectId       Int
-  createdAt       DateTime         @default(now())
-  updatedAt       DateTime         @updatedAt
+  id          String        @id @default(cuid())
+  title       String
+  description String?
+  pdfUrl      String
+  thumbnail   String?
+  isPremium   Boolean       @default(false)
+  isArchived  Boolean       @default(false)
+  difficulty  String?       // easy, medium, hard
+  tags        String[]      // ["addition", "fractions"]
+  views       Int           @default(0)
+  downloads   Int           @default(0)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
 
-  grade           Grade            @relation(fields: [gradeId], references: [id])
-  subject         Subject          @relation(fields: [subjectId], references: [id])
   worksheetSkills WorksheetSkill[]
 
-  @@index([gradeId])
-  @@index([subjectId])
 }
 
 // -----------------------------------------------------------------------------
-// 8. WorksheetSkill
+// 6. WorksheetSkill (Join Table)
 // -----------------------------------------------------------------------------
 model WorksheetSkill {
   id          Int       @id @default(autoincrement())
-  worksheetId Int
+  worksheetId String
   skillId     Int
 
-  worksheet   Worksheet @relation(fields: [worksheetId], references: [id])
-  skill       Skill     @relation(fields: [skillId], references: [id])
+  worksheet   Worksheet @relation(fields: [worksheetId], references: [id], onDelete: Cascade)
+  skill       Skill     @relation(fields: [skillId], references: [id], onDelete: Cascade)
 
   @@unique([worksheetId, skillId])
+  @@index([skillId])
 }
