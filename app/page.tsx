@@ -1,11 +1,10 @@
-// app/grades/page.tsx
-
 import { GradeCard } from "@/components/common/GradeCard";
-import { GradeWithDetails } from "@/types/GradeWithDetails";
+import { GradeType } from "@/types/GradeWithDetails";
 
 
-async function getGrades(): Promise<GradeWithDetails[]> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/grades`, {
+
+async function getCurriculum(): Promise<GradeType[]> {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/curriculum`, {
     cache: "no-store",
   });
   if (!res.ok) throw new Error("Failed to fetch");
@@ -13,7 +12,7 @@ async function getGrades(): Promise<GradeWithDetails[]> {
 }
 
 export default async function Learning() {
-  const grades = await getGrades();
+  const grades = await getCurriculum();
 
   return (
     <div >

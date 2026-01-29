@@ -1,17 +1,18 @@
 import { prisma } from "@/lib/prisma";
+import { GradeWithDetails } from "@/types/GradeWithDetails";
 import { NextResponse } from "next/server";
-
+ 
 
 export async function GET() {
   try {
-    const grades = await prisma.grade.findMany({
+    const grades: GradeWithDetails[] = await prisma.grade.findMany({
       include: {
         skills: {
           include: {
-            subject: true,
-            category: true,
-            _count: {
-              select: { topics: true },
+            category: {
+              include: {
+                subject: true,
+              },
             },
           },
         },
@@ -21,6 +22,9 @@ export async function GET() {
 
     return NextResponse.json(grades);
   } catch (error) {
-    return NextResponse.json({ error: "Failed to fetch grades" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to fetch grades" },
+      { status: 500 },
+    );
   }
 }

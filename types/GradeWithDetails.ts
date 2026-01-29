@@ -1,12 +1,27 @@
-// types/index.ts
-export interface GradeWithDetails {
+
+// -----------------------------
+// Output Types
+// -----------------------------
+export type SkillType = {
   id: number;
   name: string;
-  skills: Array<{
-    id: number;
-    name: string;
-    subject: { id: number; name: string };
-    category: { id: number; name: string };
-    _count: { topics: number };
-  }>;
-}
+  description: string | null;
+};
+
+export type CategoryType = {
+  id: number;
+  name: string;
+  skills: SkillType[];
+};
+
+export type SubjectType = {
+  id: number;
+  name: string;
+  categories: CategoryType[];
+};
+
+export type GradeType = {
+  id: number;
+  name: string;
+  subjects: SubjectType[];
+};
