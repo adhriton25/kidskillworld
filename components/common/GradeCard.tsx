@@ -1,149 +1,141 @@
-// components/GradeCard.tsx
 "use client";
-import React, { useState } from "react";
-import { ChevronDown, ChevronRight } from "lucide-react";
-import { GradeType } from "@/types/GradeWithDetails";
+import React, { useState, useRef, useEffect } from "react";
+import { ChevronDown, ChevronUp, FileText } from "lucide-react";
+import { GradeType, SubjectType } from "@/types/GradeWithDetails";
 import { getSubjectIcon } from "@/constant/subjects";
 import { Button } from "../base/Button";
 
 export const GradeCard = ({ grade }: { grade: GradeType }) => {
-  const [collapsedCategories, setCollapsedCategories] = useState<Record<number, boolean>>({});
+  const [activeSubjectId, setActiveSubjectId] = useState<number | null>(null);
 
-  const toggleCategory = (categoryKey: number) => {
-    setCollapsedCategories((prev) => ({
-      ...prev,
-      [categoryKey]: !prev[categoryKey],
-    }));
+  const toggleSubject = (subjectId: number) => {
+    setActiveSubjectId((prev) => (prev === subjectId ? null : subjectId));
   };
-
-  const expandAll = () => {
-    const newCategories: Record<number, boolean> = {};
-    grade.subjects.forEach((category) => {
-       newCategories[category.id] = false;
-    });
-    setCollapsedCategories(newCategories);
-  };
-
-  const collapseAll = () => {
-    const newCategories: Record<number, boolean> = {};
-    grade.subjects.forEach((category) => {
-      newCategories[category.id] = true;
-    });
-    setCollapsedCategories(newCategories);
-  };
-
-  // Group skills by subject
-  // const subjectsInGrade = grade.subjects.reduce(
-  //   (acc, skill) => {
-  //     const subjectName = skill.name;
-  //     if (!acc[subjectName]) acc[subjectName] = [];
-  //     acc[subjectName].push(skill);
-  //     return acc;
-  //   },
-  //   {} as Record<string, typeof grade.subjects>,
-  // );
 
   return (
     <div className="w-full max-w-sm bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
       {/* Header */}
-      <div className={`bg-[var(--grade-${grade.id})] py-4 text-center`}>
+      <div className={`bg-[var(--grade-${grade.id})] py-2 text-center`}>
         <h2 className="text-white text-2xl font-bold">{grade.name}</h2>
       </div>
 
-      {/* Global Expand/Collapse */}
-      <div className="flex justify-between px-6 pt-4">
-        <Button isLinkButton onClick={expandAll}>
-          Expand All
-        </Button>
-        <Button isLinkButton onClick={collapseAll}>
-          Collapse All
-        </Button>
-      </div>
-
-      <div className="p-6 space-y-8">
+      <div className="p-6 ">
         {grade.subjects.map((subject) => {
-          // Group skills by category
-          // const categories = skills.reduce(
-          //   (acc, skill) => {
-          //     const categoryName = skill.category.name;
-          //     if (!acc[categoryName]) acc[categoryName] = [];
-          //     acc[categoryName].push(skill);
-          //     return acc;
-          //   },
-          //   {} as Record<string, typeof skills>,
-          // );
+          const totalSkills = subject.categories.reduce(
+            (sum, cat) => sum + cat.skills.length,
+            0,
+          );
+
+          const isOpen = activeSubjectId === subject.id;
+
           return (
-            <div key={subject.id} className="space-y-6">
-              {/* Subject Title */}
-              <div className="flex items-center gap-3">
-                {getSubjectIcon(subject.id)}
-                <h3 className="text-blue-700 text-xl font-bold leading-none">
-                  {subject.name}
-                </h3>
-              </div>
-
-              {/* Categories */}
-              <div className="transition-all duration-300 ease-in-out">
-                {subject.categories.map((category) => {
-                  //const categoryKey = `${subjectName}-${categoryName}`;
-                  const isCategoryCollapsed =
-                    collapsedCategories[category.id] ?? true;
-
-                  return (
-                    <div key={category.name} className="pl-6">
-                      {/* Category Header with count */}
-                      <div className="flex items-center justify-between">
-                        <h4 className="text-green-800 font-bold text-lg">
-                          {category.name}{" "}
-                          <span className="text-gray-600 text-sm font-medium">
-                            ({category.skills.length} Skills)
-                          </span>
-                        </h4>
-                        <Button
-                          isLinkButton
-                          variant="secondary"
-                          onClick={() => toggleCategory(category.id)}
-                          leftIcon={
-                            isCategoryCollapsed ? (
-                              <ChevronRight />
-                            ) : (
-                              <ChevronDown />
-                            )
-                          }
-                        />
-                      </div>
-                      {/* Skills */}
-                      {!isCategoryCollapsed && (
-                        <div className="flex flex-col gap-2 my-3">
-                          {category.skills.map((skill) => (
-                            <div
-                              key={skill.id}
-                              className="flex justify-between items-center group pl-1"
-                            >
-                              <Button
-                                isLinkButton
-                                href={`/learning?grade=${grade.id}&subject=${skill.id}`}
-                                size="sm"
-                              >
-                                {skill.name}
-                              </Button>
-                              <Button
-                                size="sm"
-                                href={`/worksheets?grade=${grade.id}&subject=${skill.id}`}
-                              >
-                                WorkSheet
-                              </Button>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
+            <SubjectAccordion
+              key={subject.id}
+              subject={subject}
+              grade={grade}
+              isOpen={isOpen}
+              totalSkills={totalSkills}
+              toggleSubject={toggleSubject}
+            />
           );
         })}
+      </div>
+    </div>
+  );
+};
+
+/* ------------------------------
+   SUBJECT ACCORDION COMPONENT
+--------------------------------*/
+const SubjectAccordion = ({
+  subject,
+  grade,
+  isOpen,
+  totalSkills,
+  toggleSubject,
+}: {
+  subject: SubjectType;
+  grade: GradeType;
+  isOpen: boolean;
+  totalSkills: number;
+  toggleSubject: (subjectId: number) => void;
+}) => {
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [height, setHeight] = useState("0px");
+
+  useEffect(() => {
+    if (isOpen) {
+      setHeight(contentRef.current?.scrollHeight + "px");
+    } else {
+      setHeight("0px");
+    }
+  }, [isOpen]);
+
+  return (
+    <div className="space-y-1">
+      {/* SUBJECT BUTTON */}
+      <button
+        onClick={() => toggleSubject(subject.id)}
+        className="w-full flex items-center justify-between px-4 py-3 rounded-xl bg-blue-50 hover:bg-blue-100 transition-all border border-blue-200"
+      >
+        <div className="flex items-center gap-3">
+          {getSubjectIcon(subject.id)}
+          <span className="text-blue-700 text-lg font-bold">
+            {subject.name}
+            <span className="text-gray-600 text-sm font-medium ml-2">
+              ({totalSkills} Skills)
+            </span>
+          </span>
+        </div>
+
+        {isOpen ? (
+          <ChevronDown className="text-blue-700 transition-transform duration-300" />
+        ) : (
+          <ChevronUp className="text-blue-700 transition-transform duration-300" />
+        )}
+      </button>
+
+      {/* SMOOTH AUTO-HEIGHT CONTENT */}
+      <div
+        ref={contentRef}
+        style={{
+          height,
+        }}
+        className="overflow-hidden transition-all duration-500 ease-in-out"
+      >
+        <div className="pl-6 pt-3 pb-4 space-y-6">
+          {subject.categories.map((category) => (
+            <div key={category.id}>
+              {/* Category Header */}
+              <div className="flex items-center justify-start">
+                <div>
+                  <Button
+                    isLinkButton
+                    href={`/learning?grade=${grade.id}&subject=${subject.id}&categoryId=${category.id}`}
+                    size="sm"
+                  >
+                    <h4 className="text-green-800 font-bold text-lg">
+                      {category.name}
+                    </h4>
+                  </Button>
+                  <span className="text-gray-600 text-sm font-medium ml-1">
+                    ({category.skills.length} Skills)
+                  </span>
+                </div>
+
+                <Button
+                  isLinkButton
+                  className="ml-3"
+                  leftIcon={
+                    <FileText className="text-[var(--golden-yellow)]" />
+                  }
+                  size="sm"
+                  href={`/worksheets?grade=${grade.id}&subject=${subject.id}&categoryId=${category.id}`}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
