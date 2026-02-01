@@ -1,11 +1,10 @@
 // prisma/seed.ts
-import { PrismaClient } from "@prisma/client";
 import { CURRICULUM } from "./data/curriculum";
 import { mathTemplates } from "./data/mathTemplates";
 import { englishTemplates } from "./data/englishTemplates";
 import { scienceTemplates } from "./data/scienceTemplates";
+import { prisma } from "@/lib/prisma";
 
-const prisma = new PrismaClient();
 
 async function seedCurriculum() {
   console.log("📘 Seeding Grades, Subjects, Categories, Skills...");

@@ -46,4 +46,3 @@ export const getSubjectById = (id: number) =>
 // Helper: get icon by ID
 export const getSubjectIcon = (id: number) =>
   getSubjectById(id)?.icon ?? <BookOpen className="w-6 h-6 text-gray-600" />;
-

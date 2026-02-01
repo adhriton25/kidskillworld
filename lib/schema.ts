@@ -15,8 +15,7 @@ export const SignUpSchema = z.object({
   password: passwordValidation
 });
 
-export const ResetPasswordSchema = z
-  .object({
+export const ResetPasswordSchema = z.object({
     password: passwordValidation,
     confirmPassword: z.string()
   })
@@ -25,8 +24,7 @@ export const ResetPasswordSchema = z
     path: ["confirmPassword"],
   });
 
-  export const ResetEmailSchema = z
-  .object({
+  export const ResetEmailSchema = z.object({
     email: z.string().email("Please enter a valid email address"),
   });
 
