@@ -87,11 +87,89 @@ model Skill {
   category    SkillCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
   worksheetLinks WorksheetSkill[]
+  skillTemplates SkillTemplate[]
 
   @@unique([name, gradeId, categoryId])
   @@index([gradeId])
   @@index([categoryId])
 }
+
+
+model QuestionTemplate {
+  id          Int      @id @default(autoincrement())
+  template    String   @unique  // e.g. "What is {a} + {b}?"
+  type        TemplateType
+  difficulty  DifficultyLevel
+  questionFormat QuestionFormat
+
+  // Many-to-many with Skills
+  skills      SkillTemplate[]
+
+  // Many-to-many with DataBank
+  dataBanks   TemplateDataBank[]
+}
+
+enum TemplateType {
+  MATH_NUMERIC
+  ENGLISH_VOCAB
+  ENGLISH_GRAMMAR
+  ENGLISH_READING
+  SCIENCE_FACT
+  SCIENCE_CLASSIFICATION
+}
+
+enum DifficultyLevel {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum QuestionFormat {
+  MCQ
+  FILL_BLANK
+  TRUE_FALSE
+  MATCHING
+  Drag_Drop
+  Sentence_Ordering
+}
+
+model DataBank {
+  id        Int      @id @default(autoincrement())
+  subject   SubjectType
+  key       String
+  value     Json     // definitions, facts, distractors, passages, etc.
+
+  // Many-to-many with templates
+  templates TemplateDataBank[]
+}
+
+enum SubjectType {
+  MATH
+  ENGLISH
+  SCIENCE
+}
+model SkillTemplate {
+  id          Int @id @default(autoincrement())
+  skillId     Int
+  templateId  Int
+
+  skill       Skill            @relation(fields: [skillId], references: [id], onDelete: Cascade)
+  template    QuestionTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
+
+  @@unique([skillId, templateId])
+}
+
+model TemplateDataBank {
+  id          Int @id @default(autoincrement())
+  templateId  Int
+  dataBankId  Int
+
+  template    QuestionTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
+  dataBank    DataBank         @relation(fields: [dataBankId], references: [id], onDelete: Cascade)
+
+  @@unique([templateId, dataBankId])
+}
+
 
 // -----------------------------------------------------------------------------
 // 5. Worksheet (Many-to-many with Skills)

@@ -7,7 +7,6 @@ import {
   getAvailableSkillsAction,
   getWorksheetsAction,
 } from "../actions/worksheets";
-import Chip from "@/components/base/Chip";
 import { Button } from "@/components/base/Button";
 
 const SUBJECTS = [

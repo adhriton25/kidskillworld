@@ -1,10 +1,15 @@
 // prisma/seed.ts
 import { PrismaClient } from "@prisma/client";
-import { CURRICULUM } from "./curriculum";
+import { CURRICULUM } from "./data/curriculum";
+import { mathTemplates } from "./data/mathTemplates";
+import { englishTemplates } from "./data/englishTemplates";
+import { scienceTemplates } from "./data/scienceTemplates";
 
 const prisma = new PrismaClient();
 
-async function main() {
+async function seedCurriculum() {
+  console.log("📘 Seeding Grades, Subjects, Categories, Skills...");
+
   for (const gradeData of CURRICULUM) {
     // 1. Upsert Grade
     const grade = await prisma.grade.upsert({
@@ -62,12 +67,73 @@ async function main() {
     }
   }
 
-  console.log("Math + English + science + social science curriculum seeded successfully.");
+  console.log("✅ Curriculum seeded.");
+}
+
+async function seedTemplates() {
+  console.log("🧩 Seeding Question Templates...");
+
+  const allTemplates = [
+    ...mathTemplates,
+    ...englishTemplates,
+    ...scienceTemplates,
+  ];
+
+  for (const t of allTemplates) {
+    // 1. Upsert Template
+    const template = await prisma.questionTemplate.upsert({
+      where: { template: t.template },
+      update: {},
+      create: {
+        template: t.template,
+        type: t.type,
+        difficulty: t.difficulty,
+        questionFormat: t.questionFormat,
+      },
+    });
+
+    // 2. Attach template to all matching categories → skills
+    for (const categoryName of t.categories) {
+      const categories = await prisma.skillCategory.findMany({
+        where: { name: categoryName },
+        include: { skills: true },
+      });
+
+      for (const category of categories) {
+        for (const skill of category.skills) {
+          await prisma.skillTemplate.upsert({
+            where: {
+              skillId_templateId: {
+                skillId: skill.id,
+                templateId: template.id,
+              },
+            },
+            update: {},
+            create: {
+              skillId: skill.id,
+              templateId: template.id,
+            },
+          });
+        }
+      }
+    }
+  }
+
+  console.log("✅ Templates seeded.");
+}
+
+async function main() {
+  console.log("🌱 Starting full seeding...");
+
+  await seedCurriculum();
+  await seedTemplates();
+
+  console.log("🎉 All seeding completed successfully!");
 }
 
 main()
   .catch((err) => {
-    console.error("Seed error:", err);
+    console.error("❌ Seed error:", err);
     process.exit(1);
   })
   .finally(async () => {

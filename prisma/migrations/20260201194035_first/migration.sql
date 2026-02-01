@@ -1,3 +1,15 @@
+-- CreateEnum
+CREATE TYPE "TemplateType" AS ENUM ('MATH_NUMERIC', 'ENGLISH_VOCAB', 'ENGLISH_GRAMMAR', 'ENGLISH_READING', 'SCIENCE_FACT', 'SCIENCE_CLASSIFICATION');
+
+-- CreateEnum
+CREATE TYPE "DifficultyLevel" AS ENUM ('EASY', 'MEDIUM', 'HARD');
+
+-- CreateEnum
+CREATE TYPE "QuestionFormat" AS ENUM ('MCQ', 'FILL_BLANK', 'TRUE_FALSE', 'MATCHING', 'Drag_Drop', 'Sentence_Ordering');
+
+-- CreateEnum
+CREATE TYPE "SubjectType" AS ENUM ('MATH', 'ENGLISH', 'SCIENCE');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
@@ -55,6 +67,45 @@ CREATE TABLE "Skill" (
     "categoryId" INTEGER NOT NULL,
 
     CONSTRAINT "Skill_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "QuestionTemplate" (
+    "id" SERIAL NOT NULL,
+    "template" TEXT NOT NULL,
+    "type" "TemplateType" NOT NULL,
+    "difficulty" "DifficultyLevel" NOT NULL,
+    "questionFormat" "QuestionFormat" NOT NULL,
+
+    CONSTRAINT "QuestionTemplate_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "DataBank" (
+    "id" SERIAL NOT NULL,
+    "subject" "SubjectType" NOT NULL,
+    "key" TEXT NOT NULL,
+    "value" JSONB NOT NULL,
+
+    CONSTRAINT "DataBank_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "SkillTemplate" (
+    "id" SERIAL NOT NULL,
+    "skillId" INTEGER NOT NULL,
+    "templateId" INTEGER NOT NULL,
+
+    CONSTRAINT "SkillTemplate_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "TemplateDataBank" (
+    "id" SERIAL NOT NULL,
+    "templateId" INTEGER NOT NULL,
+    "dataBankId" INTEGER NOT NULL,
+
+    CONSTRAINT "TemplateDataBank_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -116,6 +167,15 @@ CREATE INDEX "Skill_categoryId_idx" ON "Skill"("categoryId");
 CREATE UNIQUE INDEX "Skill_name_gradeId_categoryId_key" ON "Skill"("name", "gradeId", "categoryId");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "QuestionTemplate_template_key" ON "QuestionTemplate"("template");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "SkillTemplate_skillId_templateId_key" ON "SkillTemplate"("skillId", "templateId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "TemplateDataBank_templateId_dataBankId_key" ON "TemplateDataBank"("templateId", "dataBankId");
+
+-- CreateIndex
 CREATE INDEX "WorksheetSkill_skillId_idx" ON "WorksheetSkill"("skillId");
 
 -- CreateIndex
@@ -132,6 +192,18 @@ ALTER TABLE "Skill" ADD CONSTRAINT "Skill_gradeId_fkey" FOREIGN KEY ("gradeId") 
 
 -- AddForeignKey
 ALTER TABLE "Skill" ADD CONSTRAINT "Skill_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "SkillCategory"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "SkillTemplate" ADD CONSTRAINT "SkillTemplate_skillId_fkey" FOREIGN KEY ("skillId") REFERENCES "Skill"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "SkillTemplate" ADD CONSTRAINT "SkillTemplate_templateId_fkey" FOREIGN KEY ("templateId") REFERENCES "QuestionTemplate"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "TemplateDataBank" ADD CONSTRAINT "TemplateDataBank_templateId_fkey" FOREIGN KEY ("templateId") REFERENCES "QuestionTemplate"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "TemplateDataBank" ADD CONSTRAINT "TemplateDataBank_dataBankId_fkey" FOREIGN KEY ("dataBankId") REFERENCES "DataBank"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "WorksheetSkill" ADD CONSTRAINT "WorksheetSkill_worksheetId_fkey" FOREIGN KEY ("worksheetId") REFERENCES "Worksheet"("id") ON DELETE CASCADE ON UPDATE CASCADE;
