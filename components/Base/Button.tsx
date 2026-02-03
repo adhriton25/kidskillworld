@@ -1,19 +1,31 @@
 import React from "react";
 import clsx from "clsx";
 
-type ButtonVariant = "primary" | "secondary" | "tertiary";
+type ButtonVariant =
+  | "primary"
+  | "secondary"
+  | "tertiary"
+  | "teal"
+  | "tealLight"
+  | "violet"
+  | "violetLight"
+  | "sky"
+  | "skyLight"
+  | "amberLight"
+  | "amber";
 type ButtonShape = "square" | "rounded";
 type ButtonMode = "button" | "loading";
 type ButtonSize = "sm" | "md" | "lg";
 
 interface ButtonProps {
   // Fixed type to strictly allow button types
-  type?: "button" | "submit" | "reset"; 
+  type?: "button" | "submit" | "reset";
   mode?: ButtonMode;
   variant?: ButtonVariant;
   shape?: ButtonShape;
   size?: ButtonSize;
   disabled?: boolean;
+  disableHover?: boolean;
   showUnderline?: boolean;
   className?: string;
   children?: React.ReactNode;
@@ -31,22 +43,60 @@ interface ButtonProps {
 
 const VARIANTS = {
   primary: {
-    bg: "bg-[var(--ksw-color-action-primary-default)]",
-    text: "text-[var(--white)]",
+    color: "bg-[var(--ksw-color-action-primary-default)] text-[var(--white)]",
     linkText: "text-[var(--ksw-color-action-primary-default)]",
     hover: "hover:bg-[var(--ksw-color-action-primary-active)]",
   },
   secondary: {
-    bg: "bg-[var(--ksw-color-action-secondary-base)] ",
-    text: "text-[var(--ksw-color-action-secondary-default)]",
+    color:
+      "bg-[var(--ksw-color-action-secondary-base)] text-[var(--ksw-color-action-secondary-default)]",
     linkText: "text-[var(--ksw-color-action-secondary-default)]",
     hover: "hover:bg-[var(--ksw-color-action-secondary-active)]",
   },
   tertiary: {
-    bg: "bg-[var(--ksw-color-action-tertiary-default)]",
-    text: "text-[var(--white)]",
+    color: "bg-[var(--ksw-color-action-tertiary-default)] text-[var(--white)]",
     linkText: "text-[var(--ksw-color-action-tertiary-default)]",
     hover: "hover:bg-[var(--ksw-color-action-tertiary-active)]",
+  },
+  teal: {
+    color: "bg-teal-500 text-white",
+    linkText: "text-teal-500",
+    hover: "",
+  },
+  tealLight: {
+    color: "bg-teal-50 text-teal-800",
+    linkText: "text-teal-500",
+    hover: "hover:bg-teal-500 hover:text-white",
+  },
+  violet: {
+    color: "bg-violet-500 text-white",
+    linkText: "text-violet-500",
+    hover: "",
+  },
+  violetLight: {
+    color: "bg-violet-50 text-violet-500",
+    linkText: "text-violet-500",
+    hover: "hover:bg-violet-500 hover:text-white",
+  },
+  sky: {
+    color: "bg-sky-500 text-white",
+    linkText: "text-sky-500",
+    hover: "",
+  },
+  skyLight: {
+    color: "bg-sky-50 text-sky-800",
+    linkText: "text-sky-500",
+    hover: "hover:bg-sky-500 hover:text-white",
+  },
+  amber: {
+    color: "bg-amber-500 text-white",
+    linkText: "text-amber-500",
+    hover: "",
+  },
+  amberLight: {
+    color: "bg-amber-50 text-amber-800",
+    linkText: "text-amber-500",
+    hover: "hover:bg-amber-500 hover:text-white",
   },
 } as const;
 
@@ -68,6 +118,7 @@ export const Button: React.FC<ButtonProps> = ({
   shape = "square",
   size = "md",
   disabled = false,
+  disableHover = false,
   showUnderline = false,
   className,
   children,
@@ -89,22 +140,21 @@ export const Button: React.FC<ButtonProps> = ({
     "inline-flex items-center justify-center gap-2",
     "whitespace-nowrap cursor-pointer font-bold transition duration-200 ease-in-out",
     SIZES[size],
-   disabled && "opacity-50 pointer-events-none",
+    disabled && "opacity-50 pointer-events-none",
     showUnderline && "underline underline-offset-4",
     // Link button mode
-        isLinkButton
+    isLinkButton
       ? [
-        "bg-transparent hover:underline underline-offset-4 shadow-none border-0 !p-0 w-fit h-fit",
-        variantType.linkText,
-      ]
+          "bg-transparent hover:underline underline-offset-4 shadow-none border-0 !p-0 w-fit h-fit",
+          variantType.linkText,
+        ]
       : [
-        variantType.bg, 
-        variantType.text, 
-        variantType.hover, 
-        SHAPES[shape], 
-        variant === "secondary" ? "border-2 " : "border-0",
-        "shadow-sm",
-      ],
+          variantType.color,
+          !disableHover && variantType.hover,
+          SHAPES[shape],
+          variant === "secondary" ? "border-2 " : "border-0",
+          "shadow-sm",
+        ],
     className,
   );
 
@@ -145,7 +195,13 @@ export const Button: React.FC<ButtonProps> = ({
   // If href exists, render as Link/Anchor
   if (href) {
     return (
-      <a href={href} target={target} onClick={onClick} onKeyDown={onKeyDown} className={classes}>
+      <a
+        href={href}
+        target={target}
+        onClick={onClick}
+        onKeyDown={onKeyDown}
+        className={classes}
+      >
         {content}
       </a>
     );
