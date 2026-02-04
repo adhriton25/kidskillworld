@@ -10,7 +10,6 @@ import { useCurriculum } from "@/hooks/useCurriculum";
 import { Button } from "@/components/base/Button";
 import SkillCategoryFilter from "@/components/common/SkillCategoryFilter";
 
-
 export const getUniqueSubjects = (grade: GradeType) => {
   const subject = new Map<number, { id: number; name: string }>();
   grade.subjects.forEach((subj) => {
@@ -85,18 +84,25 @@ export default function LearnPage() {
             Grade Level
           </h3>
           <div className="grid grid-cols-2 gap-4">
-            {(data || []).map((g) => (
+            {(data || []).map((grd) => (
               <Button
                 size="sm"
                 shape="rounded"
-                variant={gradeId === g.id ? "sky" : "skyLight"}
-                key={g.id}
+                variant={gradeId === grd.id ? "sky" : "skyLight"}
+                key={grd.id}
                 onClick={() => {
-                  setGradeId(g.id);
-                  setCategoryId(null);
+                  setGradeId(grd.id);
+                  if (
+                    grd.subjects
+                      .find((sub) => sub.id === subjectId)
+                      ?.categories.find((cat) => cat.id === categoryId)
+                  ) {
+                  } else {
+                    setCategoryId(null);
+                  }
                 }}
               >
-                {g.name}
+                {grd.name}
               </Button>
             ))}
           </div>
