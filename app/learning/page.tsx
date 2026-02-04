@@ -1,22 +1,28 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect, ReactNode } from "react";
+import { useSearchParams } from "next/navigation";
 import { Brain } from "lucide-react";
 import SkillCard from "@/components/common/SkillCard";
 import { GradeType } from "@/types/GradeWithDetails";
-import { SUBJECTS } from "@/constant/subjects";
+import { getSubjectIcon, SUBJECTS } from "@/constant/subjects";
 import { GRADE } from "@/constant/grade";
 import { useCurriculum } from "@/hooks/useCurriculum";
 import { Button } from "@/components/base/Button";
 import SkillCategoryFilter from "@/components/common/SkillCategoryFilter";
+import { RadioList } from "@/components/base/RadioList";
 
 export const getUniqueSubjects = (grade: GradeType) => {
-  const subject = new Map<number, { id: number; name: string }>();
+  const subject = new Map<
+    number,
+    { value: number; label: string; icon: ReactNode }
+  >();
   grade.subjects.forEach((subj) => {
     if (!subject.has(subj.id)) {
       subject.set(subj.id, {
-        id: subj.id,
-        name: subj.name,
+        value: subj.id,
+        label: subj.name,
+        icon: getSubjectIcon(subj.id),
       });
     }
   });
@@ -24,10 +30,27 @@ export const getUniqueSubjects = (grade: GradeType) => {
 };
 
 export default function LearnPage() {
+  const searchParams = useSearchParams();
   const { data, loading } = useCurriculum();
-  const [gradeId, setGradeId] = useState<number>(GRADE["Pre-K"].id);
-  const [subjectId, setSubjectId] = useState<number>(SUBJECTS.MATH.id);
+
+  // DEFAULT VALUES
+  const defaultGrade = GRADE["Pre-K"].id;
+  const defaultSubject = SUBJECTS.MATH.id;
+
+  const [gradeId, setGradeId] = useState<number>(defaultGrade);
+  const [subjectId, setSubjectId] = useState<number>(defaultSubject);
   const [categoryId, setCategoryId] = useState<number | null>(null);
+
+  // ⬇️ APPLY QUERY PARAMS ONCE WHEN PAGE LOADS
+  useEffect(() => {
+    const gradeParam = searchParams.get("grade");
+    const subjectParam = searchParams.get("subject");
+    const categoryParam = searchParams.get("category");
+
+    if (gradeParam) setGradeId(Number(gradeParam));
+    if (subjectParam) setSubjectId(Number(subjectParam));
+    if (categoryParam) setCategoryId(Number(categoryParam));
+  }, []); // run only once
 
   const filterData = useMemo(() => {
     return data
@@ -46,36 +69,22 @@ export default function LearnPage() {
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-white">
-      {/* LEFT SIDEBAR - FILTERS */}
-      <aside className="w-full md:w-64 p-6 border-r border-gray-100">
+      {/* LEFT SIDEBAR */}
+      <aside className="w-full md:w-64  p-6 border-r border-gray-100">
         <div className="mb-8">
-          <h3 className="font-bold text-slate-700 mb-4 uppercase text-xs tracking-widest">
-            Subjects
-          </h3>
-
-          <div>
-            <h2 className="mb-2 text-sm font-semibold text-slate-700">
-              Subject
-            </h2>
-            <div className="space-y-2">
-              {getUniqueSubjects((data || [])[0]).map((s) => (
-                <label
-                  key={s.id}
-                  className="flex items-center gap-2 cursor-pointer"
-                >
-                  <input
-                    type="radio"
-                    name="subject"
-                    checked={subjectId === s.id}
-                    onChange={() => {
-                      setSubjectId(s.id);
-                      setCategoryId(null);
-                    }}
-                  />
-                  <span className="text-sm">{s.name}</span>
-                </label>
-              ))}
-            </div>
+          <h2 className="mb-2 text-sm font-semibold text-slate-700">Subject</h2>
+          <div className="space-y-2">
+            <RadioList<number>
+              name="subject"
+              options={getUniqueSubjects((data || [])[0])}
+              value={subjectId}
+              onChange={(id) => {
+                setSubjectId(id);
+                setCategoryId(null);
+              }}
+              orientation="vertical"
+              showCheckIcon={false}
+            />
           </div>
         </div>
 
@@ -92,14 +101,11 @@ export default function LearnPage() {
                 key={grd.id}
                 onClick={() => {
                   setGradeId(grd.id);
-                  if (
-                    grd.subjects
-                      .find((sub) => sub.id === subjectId)
-                      ?.categories.find((cat) => cat.id === categoryId)
-                  ) {
-                  } else {
-                    setCategoryId(null);
-                  }
+                  const validCategory = grd.subjects
+                    .find((sub) => sub.id === subjectId)
+                    ?.categories.find((cat) => cat.id === categoryId);
+
+                  if (!validCategory) setCategoryId(null);
                 }}
               >
                 {grd.name}
@@ -109,7 +115,7 @@ export default function LearnPage() {
         </div>
       </aside>
 
-      <div className="mx-auto max-w-6xl px-4 py-6 bg-slate-50/30">
+      <div className="w-full md:w-[75%] mx-auto px-4 py-6 bg-slate-50/30">
         <div className="mb-6 flex items-center gap-3">
           <Brain className="h-8 w-8 text-sky-500" />
           <div>
@@ -123,26 +129,28 @@ export default function LearnPage() {
         </div>
 
         {data && (
-          <SkillCategoryFilter
-            grades={data}
-            gradeId={gradeId}
-            subjectId={subjectId}
-            categoryId={categoryId}
-            onCategoryChange={setCategoryId}
-          />
+          <div className="mb-6">
+            <SkillCategoryFilter
+              grades={data}
+              gradeId={gradeId}
+              subjectId={subjectId}
+              categoryId={categoryId}
+              onCategoryChange={setCategoryId}
+            />
+          </div>
         )}
 
         <section>
           {filterData?.map((category) => (
             <div
               key={category.id}
-              className="mb-6 rounded-2xl bg-white p-4 shadow-sm"
+              className="mb-6 bg-sky-50  rounded-2xl p-4 shadow-sm"
             >
-              <h3 className="mb-3 font-bold text-[27px] text-sky-500">
+              <h3 className="mb-3 font-bold text-2xl text-sky-500">
                 {category.name}
               </h3>
 
-              <div className="grid gap-6 sm:grid-cols-2">
+              <div className="grid gap-6 md:grid-cols-3">
                 {category.skills.map((skill) => (
                   <SkillCard key={skill.id} skill={skill} />
                 ))}

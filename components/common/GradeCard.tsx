@@ -111,7 +111,7 @@ const SubjectAccordion = ({
                 <div>
                   <Button
                     isLinkButton
-                    href={`/learning?grade=${grade.id}&subject=${subject.id}&categoryId=${category.id}`}
+                    href={`/learning?grade=${grade.id}&subject=${subject.id}&category=${category.id}`}
                     size="sm"
                   >
                     <h4 className="text-green-800 font-bold text-lg">
@@ -130,7 +130,7 @@ const SubjectAccordion = ({
                     <FileText className="text-[var(--golden-yellow)]" />
                   }
                   size="sm"
-                  href={`/worksheets?grade=${grade.id}&subject=${subject.id}&categoryId=${category.id}`}
+                  href={`/worksheets?grade=${grade.id}&subject=${subject.id}&category=${category.id}`}
                 />
               </div>
             </div>
