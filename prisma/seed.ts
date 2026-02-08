@@ -68,38 +68,60 @@ async function seedCurriculum() {
 
   console.log("✅ Curriculum seeded.");
 }
-
 async function seedTemplates() {
-  console.log("🧩 Seeding Question Templates...");
+  console.log("🧩 Seeding Question Templates (Math, English, Science)...");
 
-  const allTemplates = [
+  const templateGroups = [
     ...mathTemplates,
     ...englishTemplates,
     ...scienceTemplates,
   ];
 
-  for (const t of allTemplates) {
-    // 1. Upsert Template
-    const template = await prisma.questionTemplate.upsert({
-      where: { template: t.template },
-      update: {},
-      create: {
-        template: t.template,
-        type: t.type,
-        difficulty: t.difficulty,
-        questionFormat: t.questionFormat,
-      },
+  for (const group of templateGroups) {
+    const categoryName = group.categories;
+
+    // Find all SkillCategories with this name (Math, English, Science)
+    const categories = await prisma.skillCategory.findMany({
+      where: { name: categoryName },
+      include: { skills: true },
     });
 
-    // 2. Attach template to all matching categories → skills
-    for (const categoryName of t.categories) {
-      const categories = await prisma.skillCategory.findMany({
-        where: { name: categoryName },
-        include: { skills: true },
+    if (categories.length === 0) {
+      console.warn(`⚠ No SkillCategory found for: ${categoryName}`);
+      continue;
+    }
+
+    // Loop through skill groups inside this category
+    for (const skillGroup of group.skills) {
+      const skillNames = skillGroup.name;
+
+      // Fetch all matching skills across grades
+      const skills = await prisma.skill.findMany({
+        where: {
+          name: { in: skillNames },
+        },
       });
 
-      for (const category of categories) {
-        for (const skill of category.skills) {
+      if (skills.length === 0) {
+        console.warn(`⚠ No Skills found for names: ${skillNames.join(", ")}`);
+      }
+
+      // Loop through templates inside this skill group
+      for (const tmpl of skillGroup.templates) {
+        // 1. Upsert QuestionTemplate
+        const template = await prisma.questionTemplate.upsert({
+          where: { template: tmpl.template },
+          update: {},
+          create: {
+            template: tmpl.template,
+            type: tmpl.type,
+            difficulty: tmpl.difficulty,
+            questionFormat: tmpl.questionFormat,
+          },
+        });
+
+        // 2. Attach template to all skills in this group
+        for (const skill of skills) {
           await prisma.skillTemplate.upsert({
             where: {
               skillId_templateId: {
@@ -118,8 +140,9 @@ async function seedTemplates() {
     }
   }
 
-  console.log("✅ Templates seeded.");
+  console.log("✅ Templates seeded with new nested structure.");
 }
+
 
 async function main() {
   console.log("🌱 Starting full seeding...");

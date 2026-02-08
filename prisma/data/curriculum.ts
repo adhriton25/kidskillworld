@@ -198,9 +198,6 @@ export const CURRICULUM: GradeSeed[] = [
             skills: [
               { name: "Add with pictures up to 5" },
               { name: "Add with pictures up to 10" },
-              { name: "Addition sentences up to 10" },
-              { name: "Add using number lines to 10" },
-              { name: "Make 10" },
             ],
           },
           {
@@ -529,8 +526,7 @@ export const CURRICULUM: GradeSeed[] = [
           {
             name: "Addition",
             skills: [
-              { name: "Add within 100 without regrouping" },
-              { name: "Add within 100 with regrouping" },
+              { name: "Add within 100"  },
               { name: "Add within 1,000" },
               { name: "Addition word problems within 100" },
             ],
